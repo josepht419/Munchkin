@@ -14,5 +14,6 @@ public class Monster extends Card {
 	// METHOD(S)
 	public String getName(){
 		return name;
+		dcf
 	}
 }
