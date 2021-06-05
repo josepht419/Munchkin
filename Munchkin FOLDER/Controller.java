@@ -1,10 +1,11 @@
 public class Controller {
+
     public static void main (String[] args) {
+        Player p1 = new Player();
+        Card c1 = new Card("Wizard", "door", "class");
+        c1.
         
-        Card c = new Card("3,872 Orcs", "door", "monster");
-        Card[] hand = new Card[5];
-        hand[0] = c;
-    
-    } 
+
+    }
 }
     
