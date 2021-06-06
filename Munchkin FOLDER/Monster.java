@@ -1,5 +1,9 @@
 public class Monster extends Card {
-	// INSTANCE VARIABLES
+
+	//----------------------------------------------------
+	//			INSTANCE VARIABLES
+	//----------------------------------------------------
+
 	private int baseLevel;
 	private int modifiedLevel;
 	private int baseTreasureAmount;
@@ -50,8 +54,8 @@ public class Monster extends Card {
 	 * Changes the monsters level based on an amount from a different card.
 	 * @param amount The amount by which it changes.
 	 */
-	public void modifyLevel(int amount) {
-		modifiedLevel = modifiedLevel + amount;
+	public void modifyLevel(int levelModValue) {
+		modifiedLevel = modifiedLevel + levelModValue;
 	}
 
 	/** 
@@ -66,8 +70,8 @@ public class Monster extends Card {
 	 * Changes the monster's treasure amount based on an amount from a different card.
 	 * @param amount The amount by which it changes.
 	 */
-	public void modifyTreasureAmount(int amount) {
-		modifiedTreasureAmount = modifiedTreasureAmount + amount;
+	public void modifyTreasureAmount(int treasureModValue) {
+		modifiedTreasureAmount = modifiedTreasureAmount + treasureModValue;
 	}
 
 	/** 

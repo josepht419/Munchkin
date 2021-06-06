@@ -11,19 +11,27 @@ public class Controller {
         //    }
         //}
         
+        //Cards of type Class added to the ArrayList <Card>
+        Card c1 = new Class("Wizard");
+        Card c2 = new Class("Warrior");
+        Card c3 = new Class("Thief");
+        Card c4 = new Class("");
+        Card c5 = new Class("Amazon");
+        Card c6 = new Class("Warrior");
+        Card c7 = new Class("Thief");
+        
+        //Cards of type Race added to the ArrayList <Card>
+        Card c8 = new Race("Dwarf");
+        Card c9 = new Race("Elf");
 
-
-        Card c1 = new Class("Wizard", "door");
-        Card c2 = new Class("Warrior", "door");
-        Card c3 = new Class("Thief", "door");
-        Card c4 = new Class("", "door");
-        Card c5 = new Class("Amazon", "door");
-        Card c6 = new Class("Warrior", "door");
-        Card c7 = new Class("Thief", "door");
-
-        Card c8 = new Monster("Jabberwock", 17, 4, 2);
+        //Cards of type Monster added to the ArrayList <Card>
         Card c9 = new Monster("4,000 Orcs", 5,2,1);
-        Card c10 = new Monster("")
+        Card c10 = new Monster("Potted Plant", 2, 1, 1);
+
+        //Cards of type MonsterModifier added to the ArrayList <Card>
+        Card c11 = new 
+
+        
         
 
 
