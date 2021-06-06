@@ -10,16 +10,24 @@ public class Controller {
         //        p1.increaseLimit_BecomeDwarf();
         //    }
         //}
+        
 
-        Card c1 = new Card("Wizard", "door", "class");
-        Card c2 = new Card("Warrior", "door", "class");
-        Card c3 = new Card("Thief", "door", "class");
-        Card c4 = new Card("Super Munchkin", "door", "class");
-        Card c5 = new Card("Amazon", "door", "curse");
-        Card c6 = new Card("Warrior", "door", "class");
-        Card c7 = new Card("Thief", "door", "class");
+
+        Card c1 = new Class("Wizard", "door");
+        Card c2 = new Class("Warrior", "door");
+        Card c3 = new Class("Thief", "door");
+        Card c4 = new Class("", "door");
+        Card c5 = new Class("Amazon", "door");
+        Card c6 = new Class("Warrior", "door");
+        Card c7 = new Class("Thief", "door");
+
         Card c8 = new Monster("Jabberwock", 17, 4, 2);
-        Card c9 = new Curse();
+        Card c9 = new Monster("4,000 Orcs", 5,2,1);
+        Card c10 = new Monster("")
+        
+
+
+
 
         //public Curse(String name, String type, String subtype) {
         //    super(name, "door", "curse")
@@ -34,7 +42,7 @@ public class Controller {
         p1.addCardToHand(c8);
 
         Scanner scan = new Scanner(System.in);
-        System.out.println("What card would you like to remove ?"); 
+        System.out.println("What card would you like to put in play?"); 
         int input = scan.nextInt();
         Card removedCard = p1.removeCardFromHand(input);
         p1.addCardToInPlayCards(removedCard);

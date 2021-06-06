@@ -11,7 +11,7 @@ public class Monster extends Card {
 	//----------------------------------------------------
 	
 	public Monster(String name, int level, int treasureAmount, int levelIncrease){
-		super(name, "door", "monster");
+		super(name, "door");
         baseLevel = level;
 		modifiedLevel = baseLevel;
         baseTreasureAmount = treasureAmount;
