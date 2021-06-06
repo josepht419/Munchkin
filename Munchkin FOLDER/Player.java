@@ -99,44 +99,87 @@ public class Player {
         handLimit = 5;
     }
 
-    
+    /**
+     * This method gets a specific card from the player's hand based on a number (ex: the first card starting from the left is 
+    card number 1, etc.).
+     * @param cardNumber The card number (starting at 1 from the left).
+     * @return The card in question.
+     */
     public Card getCardFromHand(int cardNumber) {
         int index = cardNumber - 1;
         return hand.get(index);
     }
-
+    
+    /**
+     * This method is used to add a new card to the player's hand.
+     * @param newCard The new card being added to the player's hand.
+     */
     public void addCardToHand(Card newCard) {
         hand.add(newCard);
     }
-
-    public void removeCardFromHand(int cardNumber) {
+    
+    /**
+     * This method is used to remove a card from the player's hand based on a number (ex: the first card starting from the left is 
+    card number 1, etc.).
+     * @param cardNumber The card number (starting at 1 from the left).
+     */
+    public Card removeCardFromHand(int cardNumber) {
         int index = cardNumber - 1;
         Card cardToBeRemoved = hand.get(index);
         hand.remove(index);
         return cardToBeRemoved;
     }
-
+    
+    /**
+     * This method gets a specific card from the player's in play cards based on a number (ex: the first card starting from the left is 
+       card number 1, etc.).
+     * @param cardNumber The card number (starting at 1 from the left).
+     * @return The card in question.
+     */
+    
     public Card getCardFromInPlayCards(int cardNumber) {
         int index = cardNumber - 1;
         return inPlayCards.get(index);
     }
 
+    /** This method adds a new card to player's in play cards.
+     * @param newCard The new card being added to the player's in play cards.
+     */
     public void addCardToInPlayCards(Card newCard) {
-        inPlaycards.add(newCard);
+        inPlayCards.add(newCard);
     }
-
-    public void removeCardFromInPlayCards(int cardNumber) {
+    
+    /**
+     * This method is used to remove a card from the player's in play cards based on a number (ex: the first card starting from the left is 
+       card number 1, etc.).
+     * @param cardNumber The card number (starting at 1 from the left).
+     */
+    
+    public Card removeCardFromInPlayCards(int cardNumber) {
         int index = cardNumber - 1;
         Card cardToBeRemoved = inPlayCards.get(index);
         inPlayCards.remove(index);
         return cardToBeRemoved;
     }
 
-
+    /**
+     * This method prints the player's hand (i.e. the names of the cards in the player's hand in order from left to right.).
+     */
     public void printHand() {
-        System.out.println("");
+        System.out.println("----------- Player " + playerNumber + "'s Hand --------------");
         for (Card curCard : hand)
             System.out.println(curCard.getName());
+        System.out.println("------------------------------------------");      
+    }
+
+    /**
+     * This method prints the player's in play cards (i.e. the names of the cards in the player's in play cards in order from left to right.).
+     */
+    public void printInPlayCards() {
+        System.out.println("----------- Player " + playerNumber + "'s InPlayCards -------");
+        for (Card curCard : inPlayCards)
+            System.out.println(curCard.getName());
+        System.out.println("------------------------------------------");
     }
 
 }
