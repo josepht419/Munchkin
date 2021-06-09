@@ -16,7 +16,8 @@ public class RaceCard extends Card {
      * @param name The unique name of the card.
      */
     public RaceCard(String name) {
-		super(name, "door");
+		  super(name, "door");   
     }
+    
 
 } // End of Race class.

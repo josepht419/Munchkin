@@ -4,6 +4,7 @@ import treasure_cards.*;
 
 import java.util.Scanner;
 
+
 /**
  * This class is used to test functionalities of the Munchkin backend using console input and output.
  */
@@ -26,6 +27,8 @@ public class Controller {
         Card c5 = new ClassCard("Amazon");
         Card c6 = new ClassCard("Warrior");
         Card c7 = new ClassCard("Thief");
+        
+        Pile c1 = new 
         
         //Cards of type Race added to the ArrayList <Card>
         Card c8 = new RaceCard("Dwarf");
@@ -53,7 +56,7 @@ public class Controller {
         p1.addCardToHand(c8);
 
         Scanner scan = new Scanner(System.in);
-        System.out.println("What card would you like to put in play?"); 
+        System.out.println("What card would you like to put in play?(Numbers)"); 
         int input = scan.nextInt();
         Card removedCard = p1.removeCardFromHand(input);
         p1.addCardToInPlayCards(removedCard);

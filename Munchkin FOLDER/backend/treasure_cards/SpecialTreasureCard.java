@@ -17,7 +17,7 @@ public class SpecialTreasureCard extends Card {
      * This method constructs a special treasure card in the game. A special treasure card is a treasure card that doesn't 
      * fall into the other categories of treasure cards (SimpleEquippableCard and SimpleUsableOnceCard). They have special 
      * properties and descriptions that need a handler.
-     * @param name
+     * @param name The card's unique name.
      */
     public SpecialTreasureCard(String name) {
         super(name, "treasure");

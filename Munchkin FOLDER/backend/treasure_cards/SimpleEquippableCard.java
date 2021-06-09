@@ -13,14 +13,19 @@ public class SimpleEquippableCard extends Card {
 
     // The classification of the equippable ("weapon", "headgear", "armor", "footgear", "other").
     private String classification;
+
     // The combat bonus the equippable provides to the player (if any).
     private int combatBonus;
+
     // Who the equippable is usable by (exs: "any", "dwarf only", "female only", "not thief", etc.).
     private String usableByRequirement;
+
     // If the equippable is a weapon, whether the weapon requires 1 hand or 2 hands (possible values, 1 or 2, or 0 if not weapon).
     private int handsRequirement;
+
     // A boolean. If true, the equippable is big. If false, the equippable is not big (i.e. small).
     private boolean bigStatus;
+    
     // The gold value of the equippable.
     private int goldValue;
 
