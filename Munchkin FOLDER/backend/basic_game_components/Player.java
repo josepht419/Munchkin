@@ -96,6 +96,10 @@ public class Player {
         return level;
     }
 
+    public void modifyLevel(int amount) {
+        level = level + amount;
+    }
+
     public String getSex() {
         return sex;
     }
@@ -275,7 +279,7 @@ public class Player {
         return headgearOccupiedStatus;
     }
 
-    private void changeHeadgearOccupiedStatus() {
+    public void changeHeadgearOccupiedStatus() {
         headgearOccupiedStatus = !headgearOccupiedStatus;
     }
 

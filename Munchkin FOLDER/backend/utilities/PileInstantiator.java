@@ -20,6 +20,9 @@ public class PileInstantiator {
         doorPile = new ArrayList<Card>();
         treasurePile = new ArrayList<Card>();
 
+        doorPile_Backup = new ArrayList<Card>();
+        treasurePile_Backup = new ArrayList<Card>();
+
         // Instantiate both piles with their respective cards.
         instantiateDoorPile();
         instantiateTreasurePile();
@@ -29,6 +32,7 @@ public class PileInstantiator {
     public void instantiateDoorPile() {
 
         // Create all the cards in the door pile of the original game.
+
         Card card01 = new MonsterCard("3,872 Orcs", 10, 3, 1, false);
         Card card02 = new MonsterCard("Amazon", 8, 2, 1, false);
         Card card03 = new MonsterEnhancerCard("Ancient", 10, 2);
@@ -230,8 +234,6 @@ public class PileInstantiator {
         doorPile.add(card93);
         doorPile.add(card94);
 
-
-
     } // End of instantiateDoorPile
 
     public void instantiateTreasurePile() {
@@ -397,10 +399,10 @@ public class PileInstantiator {
         treasurePile.add(card73);
         treasurePile.add(card74);
 
-
     } // End of instatiateTreasurePile.
 
-    public void createBackUpPiles() {
+    public void instatiateBackupPiles() {
+
         for(Card curCard : doorPile)
             doorPile_Backup.add(curCard);
         for(Card curCard : treasurePile)
