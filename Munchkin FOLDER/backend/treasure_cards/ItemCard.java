@@ -5,7 +5,7 @@ import basic_game_components.Card;
 /**
  * This class represents a simple equippable card in the game of Munchkin.
  */
-public class SimpleEquippableCard extends Card {
+public class ItemCard extends Card {
     
     //----------------------------------------------------
 	//			INSTANCE VARIABLES
@@ -16,6 +16,8 @@ public class SimpleEquippableCard extends Card {
 
     // The combat bonus the equippable provides to the player (if any).
     private int combatBonus;
+
+    private int runAwayBonus;
 
     // Who the equippable is usable by (exs: "any", "dwarf only", "female only", "not thief", etc.).
     private String usableByRequirement;
@@ -43,10 +45,11 @@ public class SimpleEquippableCard extends Card {
      * @param bigStatus A boolean. If true, the weapon is big. If false, the weapon is not big (i.e. small).
      * @param goldValue The gold value of the weapon.
      */
-    public SimpleEquippableCard(String name, String classification, int combatBonus, String usableByRequirement, int handsRequirement, boolean bigStatus, int goldValue) {
+    public ItemCard(String name, String classification, int combatBonus, int runAwayBonus, String usableByRequirement, int handsRequirement, boolean bigStatus, int goldValue) {
         super(name, "treasure");
         this.classification = classification;
         this.combatBonus = combatBonus;
+        this.runAwayBonus = runAwayBonus;
         this.usableByRequirement = usableByRequirement;
         this.handsRequirement = handsRequirement;
         this.bigStatus = bigStatus;
@@ -71,6 +74,10 @@ public class SimpleEquippableCard extends Card {
      */
     public int getCombatBonus() {
         return combatBonus;
+    }
+
+    public int getRunAwayBonus() {
+        return runAwayBonus;
     }
 
     /**
@@ -103,6 +110,14 @@ public class SimpleEquippableCard extends Card {
      */
     public int getGoldValue() {
         return goldValue;
+    }
+
+    public void honryHelmet_IsElf() {
+        combatBonus = 3;
+    }
+
+    public void hornyHelmet_NoLongerElf() {
+        combatBonus = 1;
     }
 
 } // End of Weapon class.

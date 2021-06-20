@@ -15,18 +15,35 @@ public class Player {
     private int playerNumber;
     // The player's base level.
     private int level;
+
+    private String sex;
+
     // The player's combat bonuses from equipment and modifier cards like potions, etc.
     private int combatBonus;
     // The player's run away bonus from equipment.
     private int runAwayBonus;
     // The player's current gold amount.
     private int goldAmount;
-    // The player's hand, simulated by an ArrayList of Card objects,
+    // The player's hand, simulated by an ArrayList of Card objects.
     private List<Card> hand;
     // The player's hand limit, i.e. the max cards they can have in their hand before they end their turn.
     private int handLimit;
     // The cards the player has in play (ex: equipment, curses casted on the player, etc.).
     private List<Card> inPlayCards;
+
+    private List<String> currentRaces;
+
+    private List<String> currentClasses;
+
+    private int weaponHandsOccupied;
+
+    private boolean headgearOccupiedStatus;
+
+    private boolean armorOccupiedStatus;
+
+    private boolean footgearOccupiedStatus;
+
+    private boolean atLeastOneBigItemStatus;
 
     //----------------------------------------------------
 	//          CONSTRUCTOR(S)
@@ -35,10 +52,13 @@ public class Player {
     /**
      * This method constructs a Player object to simulate an individual player in the game.
      */
-    public Player(int playerNumber)
+    public Player(int playerNumber, String sex)
     {
         // The player's ID number or turn order designation.
         this.playerNumber = playerNumber;
+
+        this.sex = sex;
+
         // The player starts at level 1 initially.
         level = 1;
         // No combat bonuses until the player equips something or is modified by a usable once card.
@@ -52,6 +72,16 @@ public class Player {
         handLimit = 5;
         // The card's the player has placed down in front of them (equipment, curses placed on them, etc.).
         inPlayCards = new ArrayList<>();
+
+        currentRaces = new ArrayList<String>();
+        currentRaces.add("human");
+
+        currentClasses = new ArrayList<String>();
+
+        weaponHandsOccupied = 0;
+        headgearOccupiedStatus = false;
+        footgearOccupiedStatus = false;
+        atLeastOneBigItemStatus = false;
     }
     
     //----------------------------------------------------
@@ -64,6 +94,17 @@ public class Player {
      */ 
     public int getLevel() {
         return level;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void changeSex() {
+        if(sex.equals("male"))
+            sex = "female";
+        else if (sex.equals("female"))
+            sex = "male";
     }
 
     /**
@@ -193,6 +234,73 @@ public class Player {
         for (Card curCard : inPlayCards)
             System.out.println(curCard.getName());
         System.out.println("------------------------------------------");
+    }
+
+    public List<String> getCurrentRaces() {
+        return currentRaces;
+    }
+
+    public void changeRace(String raceToBeChanged, String newRace) {
+        currentRaces.clear();
+        currentRaces.add(newRace);
+    }
+
+    public void loseRace() {
+        currentRaces.clear();
+        currentRaces.add("human");
+    }
+
+    public List<String> getCurrentClass() {
+        return currentClasses;
+    }
+
+    public void changeClass(String newClass) {
+        currentClasses.clear();
+        currentClasses.add(newClass);
+    }
+
+    public void loseClass() {
+        currentClasses.clear();
+    }
+
+    public int getWeaponHandsOccupied() {
+        return weaponHandsOccupied;
+    }
+
+    public void changeWeaponHandsOccupied(int newValue) {
+        weaponHandsOccupied = newValue;
+    }
+
+    public boolean getHeadgearOccupiedStatus() {
+        return headgearOccupiedStatus;
+    }
+
+    private void changeHeadgearOccupiedStatus() {
+        headgearOccupiedStatus = !headgearOccupiedStatus;
+    }
+
+    public boolean getArmorOccupiedStatus() {
+        return armorOccupiedStatus;
+    }
+
+    public void changeArmorOccupiedStatus() {
+        armorOccupiedStatus = !armorOccupiedStatus;
+    }
+
+    public boolean getFootgearOccupiedStatus() {
+        return footgearOccupiedStatus;
+    }
+
+    public void changeFootgearOccupiedStatus() {
+        footgearOccupiedStatus = !footgearOccupiedStatus;
+    }
+
+    public boolean getAtLeastOneBigItemStatus() {
+        return atLeastOneBigItemStatus;
+    }
+
+    public void changeAtLeastOneBigItemStatus() {
+        atLeastOneBigItemStatus = !atLeastOneBigItemStatus;
     }
 
 } // End of Player class.

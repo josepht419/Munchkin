@@ -6,7 +6,7 @@ import basic_game_components.Card;
 /**
  * This class represents an simple usable once card in the game of Munchkin.
  */
-public class SimpleUsableOnceCard extends Card {
+public class OneShotTreasureCard extends Card {
 
     //----------------------------------------------------
 	//			INSTANCE VARIABLES
@@ -14,6 +14,11 @@ public class SimpleUsableOnceCard extends Card {
 
     // The combat bonus the simple usable once item applies to target.
     private int combatBonus;
+
+    // The gold value of the one shot treasure.
+    private int goldValue;
+
+    private boolean eitherSidePlayableStatus;
 
     //----------------------------------------------------
 	//			CONSTRUCTOR(S)
@@ -24,9 +29,11 @@ public class SimpleUsableOnceCard extends Card {
      * @param name The unique name of the card.
      * @param combatBonus The combat bonus the usable once item provides
      */
-    public SimpleUsableOnceCard(String name, int combatBonus) {
+    public OneShotTreasureCard(String name, int combatBonus, int goldValue, boolean eitherSidePlayableStatus) {
         super(name, "treasure");
         this.combatBonus = combatBonus;
+        this.goldValue = goldValue;
+        this.eitherSidePlayableStatus = eitherSidePlayableStatus;
     }
 
     //----------------------------------------------------
@@ -39,6 +46,14 @@ public class SimpleUsableOnceCard extends Card {
      */
     public int getCombatBonus() {
         return combatBonus;
+    }
+
+    public int getGoldValue() {
+        return combatBonus;
+    }
+
+    public boolean getEitherSidePlayableStatus() {
+        return eitherSidePlayableStatus;
     }
 
 } // End of UsableOnce class.

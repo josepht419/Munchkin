@@ -5,7 +5,7 @@ import basic_game_components.Card;
 /**
  * This class represents a monster modifier card in the game of Munchkin.
  */
-public class MonsterModifierCard extends Card {
+public class MonsterEnhancerCard extends Card {
 
     //----------------------------------------------------
 	//			INSTANCE VARIABLES
@@ -25,7 +25,7 @@ public class MonsterModifierCard extends Card {
      * This method constructs a monster modifier card in the game.
      * @param name The unique name of the card.
      */
-    public MonsterModifierCard(String name, int levelModValue, int treasureModValue) {
+    public MonsterEnhancerCard(String name, int levelModValue, int treasureModValue) {
 		super(name, "door");
         this.levelModValue = levelModValue;
         this.treasureModValue = treasureModValue;

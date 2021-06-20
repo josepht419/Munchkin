@@ -7,7 +7,7 @@ import basic_game_components.Card;
  * doesn't fall into the other categories of door cards (Class, Monster, MonsterModifier, Race). They have special
  * properties and descriptions that need a handler.
  */
-public class SpecialDoorCard extends Card {
+public class OtherDoorCard extends Card {
 
     //----------------------------------------------------
 	//			CONSTRUCTOR(S)
@@ -19,7 +19,7 @@ public class SpecialDoorCard extends Card {
      * properties and descriptions that need a handler.
      * @param name The unique name of the card.
      */
-    public SpecialDoorCard(String name) {
+    public OtherDoorCard(String name) {
         super(name, "door");
     }
     

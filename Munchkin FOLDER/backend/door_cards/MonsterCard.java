@@ -21,6 +21,8 @@ public class MonsterCard extends Card {
 	private int modifiedTreasureAmount;
 	// The amount of levels you go up for defeating the monster.
 	private int levelIncrease;
+	// Whether or not the monster is undead.
+	private boolean undeadStatus;
 
 	//----------------------------------------------------
 	//			CONSTRUCTOR(S)
@@ -33,13 +35,14 @@ public class MonsterCard extends Card {
 	 * @param treasureAmount The amount of treasures you get for beating the monster.
 	 * @param levelIncrease The amount of levels you go up for beating the monster.
 	 */
-	public MonsterCard(String name, int level, int treasureAmount, int levelIncrease){
+	public MonsterCard(String name, int level, int treasureAmount, int levelIncrease, boolean undeadStatus){
 		super(name, "door");
         baseLevel = level;
 		modifiedLevel = baseLevel;
         baseTreasureAmount = treasureAmount;
 		modifiedTreasureAmount = baseTreasureAmount;
 		this.levelIncrease = levelIncrease;
+		this.undeadStatus = undeadStatus;
 	}
 	//----------------------------------------------------
 	//			METHOD(S)
@@ -98,6 +101,10 @@ public class MonsterCard extends Card {
 	 */
 	public void resetTreasureAmount() {
 		modifiedTreasureAmount = baseTreasureAmount;
+	}
+
+	public boolean getUndeadStatus() {
+		return undeadStatus;
 	}
 
 } // End of Monster class.
