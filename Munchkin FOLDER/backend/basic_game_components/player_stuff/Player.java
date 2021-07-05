@@ -1,4 +1,4 @@
-package basic_game_components;
+package basic_game_components.player_stuff;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,39 +11,35 @@ public class Player {
 	//          INSTANCE VARIABLES
     //----------------------------------------------------
 
-    // The player's ID number or turn order designation.
-    private int playerNumber;
-    // The player's base level.
+    // The player's turn number or turn order designation.
+    private int playerTurnNumber;
+    // The player's base level (1-10).
     private int level;
-
+    // The player's sex, male or female. Represented as Strings "male" or "female".
     private String sex;
-
     // The player's combat bonuses from equipment and modifier cards like potions, etc.
     private int combatBonus;
     // The player's run away bonus from equipment.
     private int runAwayBonus;
     // The player's current gold amount.
     private int goldAmount;
-    // The player's hand, simulated by an ArrayList of Card objects.
-    private List<Card> hand;
-    // The player's hand limit, i.e. the max cards they can have in their hand before they end their turn.
-    private int handLimit;
-    // The cards the player has in play (ex: equipment, curses casted on the player, etc.).
-    private List<Card> inPlayCards;
+    
+    //private List<Card> hand; 
+    //private int handLimit;
+    //private List<Card> inPlayCards; 
+    //private List<String> currentRaces;
 
-    private List<String> currentRaces;
+    //private List<String> currentClasses;
 
-    private List<String> currentClasses;
+    //private int weaponHandsOccupied;
 
-    private int weaponHandsOccupied;
+    //private boolean headgearOccupiedStatus;
 
-    private boolean headgearOccupiedStatus;
+    //private boolean armorOccupiedStatus;
 
-    private boolean armorOccupiedStatus;
+    //private boolean footgearOccupiedStatus;
 
-    private boolean footgearOccupiedStatus;
-
-    private boolean atLeastOneBigItemStatus;
+    //private boolean atLeastOneBigItemStatus;
 
     //----------------------------------------------------
 	//          CONSTRUCTOR(S)
@@ -54,8 +50,8 @@ public class Player {
      */
     public Player(int playerNumber, String sex)
     {
-        // The player's ID number or turn order designation.
-        this.playerNumber = playerNumber;
+        // The player's turn order designation number.
+        this.playerTurnNumber = playerTurnNumber;
 
         this.sex = sex;
 
@@ -88,6 +84,14 @@ public class Player {
 	//          METHOD(S)
     //----------------------------------------------------
     
+    /**
+     * This method get's the player's turn order designation number.
+     * @return The player's turn order designation number.
+     */
+    public int getPlayerTurnNumber() {
+        return playerTurnNumber;
+    }
+
     /**
      * Get the player's level.
      * @return The player's level.

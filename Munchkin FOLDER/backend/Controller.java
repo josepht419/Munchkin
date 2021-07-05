@@ -15,7 +15,7 @@ public class Controller {
         
         Player p1 = new Player(1, "male");
         Card c1 = new CurseCard("Lose A Level");
-        CurseHandler.handleCurse(p1, c1);
+        CurseCardHandler.handleCurse(p1, c1);
 
     } // End of main method.
     
