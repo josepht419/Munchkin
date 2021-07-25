@@ -13,7 +13,7 @@ public class Hand {
     //----------------------------------------------------
 
     // The ID number or turn order designation of the player whose hand this is.
-    private int playerNumber;
+    private int playerTurnNumber;
     // A list of Card objects to simulate the hand.
     private List<Card> handList;
     // The limit of cards the player can have at the end of their turn (usually 5, unless they are a dwarf, in which case it is 6).
@@ -27,8 +27,8 @@ public class Hand {
      * This method constructs a Hand object for the Player class w/ default limit of 5 cards.
      * @param playerNumber The ID number or turn order designation of the player whose hand this is.
      */
-    public Hand(int playerNumber) {
-        this.playerNumber = playerNumber;
+    public Hand(int playerTurnNumber) {
+        this.playerTurnNumber = playerTurnNumber;
         handList = new ArrayList<>();
         handLimit = 5;
     }
@@ -155,7 +155,7 @@ public class Hand {
      */
     public String toString() {
 
-        String output = "----------- Player " + playerNumber + "'s Hand --------------\n";
+        String output = "----------- Player " + playerTurnNumber + "'s Hand --------------\n";
 
         for(Card curCard : handList) {
             String curCardName = curCard.getName();

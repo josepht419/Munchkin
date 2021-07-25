@@ -1,8 +1,12 @@
 package basic_game_components.player_stuff;
 
 import basic_game_components.Card;
+import door_cards.*;
+import treasure_cards.*;
+
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class simulates the player's in play cards, i.e. the card they have layed out infront of them (ex: equipment, active curses, 
@@ -14,12 +18,12 @@ public class InPlayCards {
     //----------------------------------------------------
 
     // The ID number or turn order designation of the player whose in play cards these are.
-    private int playerNumber;
+    private int playerTurnNumber;
     // A list of Card objects to simulate the in play cards.
     private List<Card> inPlayCardsList;
     // The current number of race cards the player has equipped.
     private int numOfEquippedRaces;
-    // The number of races cards a player can have equipped simultaneously (normally 1, 2 with "Half-Breed" card.)
+    // The card position numbers of any equipped race cards in the player's in play cards.
     private int raceCardLimit;
     // Whether or not the player is a human or part-human.
     private boolean isHuman;
@@ -37,7 +41,11 @@ public class InPlayCards {
     // Whether or not the player has footgear equipped.
     private boolean footgearEquipped;
     // Whether or not the player has at least one big item equipped.
-    private boolean atLeastOneBigItem_Equipped;
+    private boolean atLeastOneBigItemEquipped;
+    // A hash map used to save the card location numbers of certain types of cards (race cards, class cards, headgear cards, armor cards, footgear cards,
+    // big item cards). The location numbers are then used to make their removal easier in the case of curses and other situations (since we already know
+    // the location number to remove from).
+    private HashMap<String, ArrayList<Integer>> cardLocationMap;
 
 
     //----------------------------------------------------
@@ -46,10 +54,10 @@ public class InPlayCards {
 
     /**
      * This method constructs an InPlayCards object for the Player class.
-     * @param playerNumber The ID number or turn order designation of the player whose in play cards these are.
+     * @param playerTurnNumber The ID number or turn order designation of the player whose in play cards these are.
      */
-    public InPlayCards(int playerNumber) {
-        this.playerNumber = playerNumber;
+    public InPlayCards(int playerTurnNumber) {
+        this.playerTurnNumber = playerTurnNumber;
         inPlayCardsList = new ArrayList<>();
 
         numOfEquippedRaces = 0;
@@ -61,7 +69,16 @@ public class InPlayCards {
         headgearEquipped = false;
         armorEquipped = false;
         footgearEquipped = false;
-        atLeastOneBigItem_Equipped = false;
+        atLeastOneBigItemEquipped = false;
+
+        cardLocationMap = new HashMap<String, ArrayList<Integer>>();
+
+        cardLocationMap.put("raceCard_LocationNumbers", new ArrayList<Integer>());
+        cardLocationMap.put("classCard_LocationNumbers", new ArrayList<Integer>());
+        cardLocationMap.put("headgearCard_LocationNumbers", new ArrayList<Integer>());
+        cardLocationMap.put("armorCard_LocationNumbers", new ArrayList<Integer>());
+        cardLocationMap.put("footgearCard_LocationNumbers", new ArrayList<Integer>());
+        cardLocationMap.put("bigItemCard_LocationNumbers", new ArrayList<Integer>());
 
     } // End of constructor method.
 
@@ -80,6 +97,27 @@ public class InPlayCards {
      */
     public int getNumberOfEquippedRaces() {
         return numOfEquippedRaces;
+    }
+
+    /**
+     * This method is used to increment the number of equipped races when a race card is equipped.
+     */
+    public void incrementNumberOfEquippedRaces() {
+        numOfEquippedRaces++;
+    }
+
+    /**
+     * This method is used to decrement the number of equipped races when a race card is removed.
+     */
+    public void decrementNumberOfEquippedRaces() {
+        numOfEquippedRaces--;
+    }
+
+    /**
+     * This method is used to reset the number of equipped races when the player is a victim of the "Curse! Lose Your Race".
+     */
+    public void resetNumOfEquippedRaces_LoseYourRace() {
+        numOfEquippedRaces = 0;
     }
 
     /**
@@ -113,24 +151,19 @@ public class InPlayCards {
     }
 
     /**
-     * This method is used to increment the number of equipped races when a race card is equipped.
+     * This method is used to check to see if the player is human or not (or half-human, half-something else in the case of "Half-Breed").
+     * @return True if the player is human or part-human, false if they are not human at all.
      */
-    public void incrementNumberOfEquippedRaces() {
-        numOfEquippedRaces++;
+    public boolean checkIfPlayerIsHuman() {
+        return isHuman;
     }
 
     /**
-     * This method is used to decrement the number of equipped races when a race card is removed.
+     * This method is used to set whether the player is human or part-human to true or false.
+     * @param isHuman True if you're setting the player to human or part-human, false if you are setting the player to non-human.
      */
-    public void decrementNumberOfEquippedRaces() {
-        numOfEquippedRaces--;
-    }
-
-    /**
-     * This method is used to reset the number of equipped races when the player is a victim of the "Curse! Lose Your Race".
-     */
-    public void resetNumOfEquippedRaces_LoseYourRace() {
-        numOfEquippedRaces = 0;
+    public void setIfPlayerIsHuman(boolean isHuman) {
+        this.isHuman = isHuman;
     }
 
     //------------------------------------------
@@ -146,46 +179,59 @@ public class InPlayCards {
      * @return The number of classes currently equipped.
      */
     public int getNumberOfEquippedClasses() {
-        return numOfEquippedRaces;
-    }
-
-
-    public int getClassCardLimit() {
-        return classCardLimit;
+        return numOfEquippedClasses;
     }
 
     /**
-     * This method is used to increase the race card limit to 2 if the player equips the "Half-Breed" card.
+     * This method is used to increment the number of equipped classes when a class card is equipped.
      */
-    public void extendClassCardLimit_SuperMunchkinEquipped() {
-        classCardLimit = 2;
-    }
-
-    /**
-     * This method is used to reset the race card limit to 1 if the player loses "Half-Breed" card.
-     */
-    public void resetClassCardLimit_SuperMunchkinRemoved() {
-        classCardLimit = 1;
-    }
-
-    public boolean checkIf_ClassCardCanBeEquipped() {
-        return numOfEquippedClasses < classCardLimit;
-    }
-
-
-    public void increment_NumberOfEquippedClasses() {
+    public void incrementNumberOfEquippedClasses() {
         numOfEquippedClasses++;
     }
 
     /**
      * This method is used to decrement the number of equipped classes when a class card is removed.
      */
-    public void decrementNumberOfEquippedClasses() {
-        numOfEquippedRaces--;
+    public void decrementNumberOfEquippedClaases() {
+        numOfEquippedClasses--;
     }
 
-    public void resetNumOfEquippedClasses_ToZero() {
+    /**
+     * This method is used to reset the number of equipped classes when the player is a victim of the "Curse! Lose Your Class".
+     */
+    public void resetNumOfEquippedClasses_LoseYourClass() {
         numOfEquippedClasses = 0;
+    }
+
+    /**
+     * This method gets the current class card limit (usually 1, 2 if the "Super Munchkin" card is equipped).
+     * @return The current class card limit.
+     */
+    public int getClassCardLimit() {
+        return classCardLimit;
+    }
+
+    /**
+     * This method is used to increase the class card limit to 2 if the player equips the "Super Munchkin" card.
+     */
+    public void extendClassCardLimit_SuperMunchkinEquipped() {
+        classCardLimit = 2;
+    }
+
+    /**
+     * This method is used to reset the class card limit to 1 if the player loses "Super Munchkin" card.
+     */
+    public void resetClassCardLimit_SuperMunchkinRemoved() {
+        classCardLimit = 1;
+    }
+
+    /**
+     * This method checks to see if a class card can be equipped according to the current number of class cards equipped versus 
+     * the limit.
+     * @return True if class card can be equipped, false if it cannot.
+     */
+    public boolean checkIf_ClassCardCanBeEquipped() {
+        return numOfEquippedClasses < classCardLimit;
     }
 
     //------------------------------------------
@@ -196,24 +242,93 @@ public class InPlayCards {
     //     DEALING WITH ITEM CARDS...
     //------------------------------------------
 
+    /**
+     * This method gets the number of weapon hands currently occupied by the player.
+     * @return The number of weapon hands currently occupied by the player.
+     */
+    public int get_NumOfWeaponHandsOccupied() {
+        return numOfWeaponHandsOccupied;
+    }
+
+    /**
+     * This method sets the number of weapon hands currently occupied by the player to a new value.
+     * @param numOfWeaponHandsOccupied This method sets the number of weapon hands currently occupied by the player to a new value.
+     */
+    public void set_NumOfWeaponHandsOccupied(int numOfWeaponHandsOccupied) {
+        this.numOfWeaponHandsOccupied = numOfWeaponHandsOccupied;
+    }
+
+    /**
+     * This method is used to check if headgear is currently equipped.
+     * @return True if headgear is currently equipped, false if it is not.
+     */
     public boolean checkIf_HeadgearEquipped() {
         return headgearEquipped;
     }
 
+    /**
+     * This method is used to set if headgear is currently equipped.
+     * @param headgearEquipped Set to true if headgear is equipped, set to false if headgear is removed.
+     */
+    public void setIf_HeadgearEquipped(boolean headgearEquipped) {
+        this.headgearEquipped = headgearEquipped;
+    }
+
+
+    /**
+     * This method is used to check if armor is currently equipped.
+     * @return True if armor is currently equipped, false if it is not.
+     */
     public boolean checkIf_ArmorEquipped() {
         return armorEquipped;
     }
 
+    /**
+     * This method is used to set if armor is currently equipped.
+     * @param armorEquipped Set to true if armor is equipped, set to false if armor is removed.
+     */
+    public void setIf_ArmorEquipped(boolean armorEquipped) {
+        this.armorEquipped = armorEquipped;
+    }
+
+    /**
+     * This method is used to check if footgear is currently equipped.
+     * @return True if footgear is currently equipped, false if it is not.
+     */
     public boolean checkIf_FootgearEquipped() {
         return footgearEquipped;
     }
 
-    public boolean checkIf_atLeastOneBigItem_Equipped() {
-        return atLeastOneBigItem_Equipped;
+    /**
+     * This method is used to set if footgear is currently equipped.
+     * @param footgearEquipped Set to true if footgear is equipped, set to false if headgear is removed.
+     */
+    public void setIf_FootgearEquipped(boolean footgearEquipped) {
+        this.footgearEquipped = footgearEquipped;
+    }
+
+    /**
+     * This method is used to check if at least one big item is currently equipped.
+     * @return True if at least one big item is currently equipped, false if it is not.
+     */
+    public boolean checkIf_atLeastOneBigItemEquipped() {
+        return atLeastOneBigItemEquipped;
+    }
+
+    /**
+     * This method is used to set if at least one big item is currently equipped.
+     * @param headgearEquipped Set to true if headgear is equipped, set to false if headgear is removed.
+     */
+    public void setIf_AtLeastOneBigItemEquipped(boolean atLeastOneBigItemEquipped) {
+        this.atLeastOneBigItemEquipped = atLeastOneBigItemEquipped;
     }
 
     //------------------------------------------
     // End of dealing with item cards methods.
+    //------------------------------------------
+
+    //------------------------------------------
+    //     GENERAL IN PLAY CARD METHODS...
     //------------------------------------------
 
     /**
@@ -298,13 +413,94 @@ public class InPlayCards {
     }
 
     /**
+     * This method is used to save the location numbers of certain cards (specifically race cards, class cards, headgear cards, armor cards, footgear
+     * cards, and big item cards). This is so that we can use another method (getListOfLocationNumbers_ForCertainCardType) to easily get the location
+     * numbers of all of a certain type of card and remove them based on the location number.
+     * @param newCard The card that you are adding to in play cards whose location number you want to save (must be race card, class card, 
+     * headgear card, armor cards, footgear card, or big item card).
+     * @param cardLocationNumber The card location number you are placing that card at in the in play cards.
+     */
+    public void saveCardLocationNumberTo_CardLocationMap(Card newCard, int cardLocationNumber) {
+        
+        if(newCard instanceof RaceCard) {
+            cardLocationMap.get("raceCard_LocationNumbers").add(cardLocationNumber);
+        }
+
+        if(newCard instanceof ClassCard) {
+            cardLocationMap.get("classCard_LocationNumbers").add(cardLocationNumber);
+        }
+
+        if(newCard instanceof ItemCard) {
+
+            String classification = ((ItemCard) newCard).getClassification();
+
+            switch(classification) {
+                case "headgear":
+                    cardLocationMap.get("headgearCard_LocationNumbers").add(cardLocationNumber);
+                    break;
+                case "armor":
+                    cardLocationMap.get("armorCard_LocationNumbers").add(cardLocationNumber);
+                    break;
+                case "footgear":
+                    cardLocationMap.get("footgearCard_LocationNumbers").add(cardLocationNumber);
+                    break;
+
+            } // End of switch statement.
+
+            boolean bigStatus = ((ItemCard) newCard).getBigStatus();
+
+            if(bigStatus == true) {
+                cardLocationMap.get("bigItemCard_LocationNumbers").add(cardLocationNumber);
+            }
+        }
+
+    } // End of addCardLocationTo_CardLocationMap method.
+
+    /**
+     * This method is used to get a list of the card location numbers for a given card type (used specifically for race cards, class cards,
+     * headgear cards, armor cards, footgear cards, and big item cards). If the given card type input is not valid, then the method will
+     * just return null,.
+     * @param cardType Valid inputs: "race cards", "class cards", "headgear cards", "armor cards", "footgear cards", and "big item cards".
+     * @return List of the card location numbers for given card type. If the given input String is invalid, the method will just return null.
+     */
+    public List<Integer> getListOfLocationNumbers_ForCertainCardType(String cardType) {
+
+        List<Integer> cardLocationNumbers_List = null;
+
+        switch(cardType) {
+            case "raceCard_LocationNumbers":
+                cardLocationNumbers_List = cardLocationMap.get("raceCard_LocationNumbers");
+                break;
+            case "classCard_LocationNumbers":
+                cardLocationNumbers_List = cardLocationMap.get("classCard_LocationNumbers");
+                break;
+            case "headgearCard_LocationNumbers":
+                cardLocationNumbers_List = cardLocationMap.get("headgearCard_LocationNumbers");
+                break;
+            case "armorCard_LocationNumbers":
+                cardLocationNumbers_List = cardLocationMap.get("armorCard_LocationNumbers");
+                break;
+            case "footgearCard_LocationNumbers":
+                cardLocationNumbers_List = cardLocationMap.get("footgearard_LocationNumbers");
+                break;
+            case "bigItemCard_LocationNumbers":
+                cardLocationNumbers_List = cardLocationMap.get("bigItemCard_LocationNumbers");
+                break;
+
+        } // End of switch statement.
+
+        return cardLocationNumbers_List;
+
+    } // End of getListOfLocationNumbers_ForCertainCardType method.
+
+    /**
      * This is an overrided toString method to provide a visual representation of the player's in play cards when printing to the console.
      * It display's the player's turn designation number and the names of all the cards in his in play. This is used for development
      * and testing.
      */
     public String toString() {
 
-        String output = "------ Player " + playerNumber + "'s In Play Cards ----------\n";
+        String output = "------ Player " + playerTurnNumber + "'s In Play Cards ----------\n";
 
         for(Card curCard : inPlayCardsList) {
             String curCardName = curCard.getName();

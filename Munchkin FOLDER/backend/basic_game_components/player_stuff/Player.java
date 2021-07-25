@@ -24,22 +24,9 @@ public class Player {
     // The player's current gold amount.
     private int goldAmount;
     
-    //private List<Card> hand; 
-    //private int handLimit;
-    //private List<Card> inPlayCards; 
-    //private List<String> currentRaces;
+    private Hand hand;
 
-    //private List<String> currentClasses;
-
-    //private int weaponHandsOccupied;
-
-    //private boolean headgearOccupiedStatus;
-
-    //private boolean armorOccupiedStatus;
-
-    //private boolean footgearOccupiedStatus;
-
-    //private boolean atLeastOneBigItemStatus;
+    private InPlayCards inPlayCards;
 
     //----------------------------------------------------
 	//          CONSTRUCTOR(S)
@@ -48,13 +35,10 @@ public class Player {
     /**
      * This method constructs a Player object to simulate an individual player in the game.
      */
-    public Player(int playerNumber, String sex)
+    public Player(int playerTurnNumber, String sex)
     {
-        // The player's turn order designation number.
         this.playerTurnNumber = playerTurnNumber;
-
         this.sex = sex;
-
         // The player starts at level 1 initially.
         level = 1;
         // No combat bonuses until the player equips something or is modified by a usable once card.
