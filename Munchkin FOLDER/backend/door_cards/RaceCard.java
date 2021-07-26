@@ -7,9 +7,9 @@ import basic_game_components.Card;
  */
 public class RaceCard extends Card {
     
-  //----------------------------------------------------
-	//			CONSTRUCTOR(S)
-	//----------------------------------------------------
+    //----------------------------------------------------
+	  //			    CONSTRUCTOR(S)
+	  //----------------------------------------------------
     
     /**
      * This method constructs a race card in the game (ex: Elf, Dwarf, etc.).
@@ -20,4 +20,4 @@ public class RaceCard extends Card {
     }
     
 
-} // End of Race class.
+} // End of RaceCard class.

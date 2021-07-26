@@ -11,18 +11,14 @@ public class MonsterCard extends Card {
 	//			INSTANCE VARIABLES
 	//----------------------------------------------------
 
-	// The monster's base level (before any modifications).
-	private int baseLevel;
-	// The monster's modified level (after any modifications).
-	private int modifiedLevel;
+	// The monster's level.
+	private int level;
 	// The monster's base treasure reward amount for defeating it (before any modifications).
-	private int baseTreasureAmount;
-	// The monster's modified treasure reward amount for defeating it (after any modifications).
-	private int modifiedTreasureAmount;
+	private int treasureReward;
 	// The amount of levels you go up for defeating the monster.
-	private int levelIncrease;
+	private int levelReward;
 	// Whether or not the monster is undead.
-	private boolean undeadStatus;
+	private boolean isUndead;
 
 	//----------------------------------------------------
 	//			CONSTRUCTOR(S)
@@ -32,79 +28,76 @@ public class MonsterCard extends Card {
 	 * This method constructs a monster card in the game.
 	 * @param name The unique name of the card.
 	 * @param level The monster's base level.
-	 * @param treasureAmount The amount of treasures you get for beating the monster.
-	 * @param levelIncrease The amount of levels you go up for beating the monster.
+	 * @param treasureReward The amount of treasures you are rewarded with for beating the monster.
+	 * @param levelReward The amount of levels you are rewarded with for beating the monster.
+	 * @param isUndead Whether or not the monster is undead (true if undead, false if not undead).
 	 */
-	public MonsterCard(String name, int level, int treasureAmount, int levelIncrease, boolean undeadStatus){
+	public MonsterCard(String name, int level, int treasureReward, int levelReward, boolean isUndead) {
 		super(name, "door");
-        baseLevel = level;
-		modifiedLevel = baseLevel;
-        baseTreasureAmount = treasureAmount;
-		modifiedTreasureAmount = baseTreasureAmount;
-		this.levelIncrease = levelIncrease;
-		this.undeadStatus = undeadStatus;
+        this.level = level;
+        this.treasureReward = treasureReward;
+		this.levelReward = levelReward;
+		this.isUndead = isUndead;
 	}
 	//----------------------------------------------------
 	//			METHOD(S)
 	//----------------------------------------------------
 
 	/**
-	 * Get the monster's level.
+	 * This method get the monster's current level.
 	 * @return The monster's level.
 	 */
 	public int getLevel() {
-		return modifiedLevel;
+		return level;
 	}
 	/**
-	 * Get the monster's treasure amount (i.e. the amount of treasures you get for beating it).
-	 * @return The monster's treasure amount.
+	 * This method get the monster's current treasure reward (i.e. the amount of treasures you get for beating it).
+	 * @return The monster's current treasure reward.
 	 */
-	public int getTreasureAmount() {
-		return baseTreasureAmount;
+	public int getTreasureReward() {
+		return treasureReward;
 	}
 	
 	/**
-	 * Get the monster's level increase (i.e. how many levels you gain for beating it).
-	 * @return
+	 * This method gets the monster's current rewarded level increase (i.e. how many levels you gain for beating it).
+	 * @return The monster's current rewarded level increase.
 	 */
-	public int getLevelIncrease() {
-		return levelIncrease;
+	public int getLevelReward() {
+		return levelReward;
 	}
 	
-	
 	/**
-	 * Changes the monsters level based on an amount from a different card.
-	 * @param amount The amount by which it changes.
+	 * This method changes the monster's level based on a level modification amount (for when the monster's level is reduced or augmented by 
+	 * another card). It can be a positive amount (increase) or negative amount (decrease).
+	 * @param amount The level modification amount.
 	 */
 	public void modifyLevel(int levelModValue) {
-		modifiedLevel = modifiedLevel + levelModValue;
+		level += levelModValue;
 	}
-
-	/** 
-	 * Resets the monster's level to its original state.
-	 */
-	public void resetLevel() {
-		modifiedLevel = baseLevel;
-	}
-
 
 	/**
-	 * Changes the monster's treasure amount based on an amount from a different card.
+	 * This method changes the monster's treasure reward based on a treasure modification amount (for when the monster's treasure reward is
+	 * reduced or augmented by another card).
 	 * @param amount The amount by which it changes.
 	 */
-	public void modifyTreasureAmount(int treasureModValue) {
-		modifiedTreasureAmount = modifiedTreasureAmount + treasureModValue;
+	public void modifyTreasureReward(int treasureModValue) {
+		treasureReward += treasureModValue;
 	}
 
-	/** 
-	 * Resets the monster's treasure amount to its original state.
+	/**
+	 * This method returns whether the monster is undead or not.
+	 * @return True if undead, false if not undead.
 	 */
-	public void resetTreasureAmount() {
-		modifiedTreasureAmount = baseTreasureAmount;
-	}
-
 	public boolean getUndeadStatus() {
-		return undeadStatus;
+		return isUndead;
 	}
 
-} // End of Monster class.
+	/**
+	 * This method is used to set the monster to undead, or set it to not undead.
+	 * @param isUndead True to set the monster to undead, false to set the monster to not undead.
+	 */
+	public void setIfMonsterIsUndead(boolean isUndead) {
+		this.isUndead = isUndead;
+	}
+
+} // End of MonsterCard class.

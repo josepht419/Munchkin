@@ -3,9 +3,9 @@ package door_cards;
 import basic_game_components.Card;
 
 /**
- * This class represents a special door card in the game of Munchkin. A special door card is a door card that
- * doesn't fall into the other categories of door cards (Class, Monster, MonsterModifier, Race). They have special
- * properties and descriptions that need a handler.
+ * This class represents an "other door" card in the game of Munchkin. An "other door" card is a door card that
+ * doesn't fall into the other categories of door cards (Class, Curse, Helper, Monster, MonsterEnhancer, Race). They have special
+ * properties and descriptions that require a handler class.
  */
 public class OtherDoorCard extends Card {
 
@@ -14,13 +14,11 @@ public class OtherDoorCard extends Card {
 	//----------------------------------------------------
 
     /**
-     * This method constructs a special door card in the game. A special door card is a door card that doesn't 
-     * fall into the other categories of door cards (Class, Monster, MonsterModifier, Race). They have special 
-     * properties and descriptions that need a handler.
+     * This method constructs an "other door" card in the game.
      * @param name The unique name of the card.
      */
     public OtherDoorCard(String name) {
         super(name, "door");
     }
     
-} // End of SpecialDoor class.
+} // End of OtherDoorCard class.
