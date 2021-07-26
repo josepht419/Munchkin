@@ -8,15 +8,15 @@ import basic_game_components.Card;
 public class ClassCard extends Card {
     
     //----------------------------------------------------
-	//			CONSTRUCTOR(S)
-	//----------------------------------------------------
-    
+    //			CONSTRUCTOR(S)
+    //----------------------------------------------------
+  
     /**
      * This method constructs a class card in the game (ex: Wizard, Warrior, etc.).
      * @param name The unique name of the card.
      */
     public ClassCard(String name) {
-		super(name, "door");
+        super(name, "door");
     }
 
-} // End of Class class (represent class cards).
+} // End of ClassCard class.

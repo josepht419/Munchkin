@@ -3,7 +3,7 @@ package door_cards;
 import basic_game_components.*;
 
 /**
- * This class represents a curse card in the game of CurseCard.
+ * This class represents a curse card in the game of Munchkin.
  */
 public class CurseCard extends Card {
 
@@ -12,11 +12,11 @@ public class CurseCard extends Card {
 	//----------------------------------------------------
 
     /**
-     * This method constructs a  curse card in the game.
+     * This method constructs a curse card in the game.
      * @param name The unique name of the card.
      */
     public CurseCard(String name) {
         super(name, "door");
     }
 
-} // End of CurseCard.
+} // End of CurseCard class.

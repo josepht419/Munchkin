@@ -16,7 +16,7 @@ public class Hand {
     private int playerTurnNumber;
     // A list of Card objects to simulate the hand.
     private List<Card> handList;
-    // The limit of cards the player can have at the end of their turn (usually 5, unless they are a dwarf, in which case it is 6).
+    // The limit of cards the player can have by the end of their turn (usually 5, unless they are a dwarf, in which case it is 6).
     private int handLimit;
 
     //----------------------------------------------------
@@ -24,7 +24,7 @@ public class Hand {
     //----------------------------------------------------
 
     /**
-     * This method constructs a Hand object for the Player class w/ default limit of 5 cards.
+     * This method constructs a Hand object for the Player class w/ a default limit of 5 cards.
      * @param playerNumber The ID number or turn order designation of the player whose hand this is.
      */
     public Hand(int playerTurnNumber) {
@@ -61,7 +61,7 @@ public class Hand {
 
     /**
      * This method gets a card from the player's hand based on it's card location number (ex: the first card starting from the left is card 1, 
-     * etc.).
+     * the one to the right of it is 2, etc.).
      * @param cardNumber The card number (starting at 1 from the left).
      * @return The card in question.
      */
@@ -125,7 +125,7 @@ public class Hand {
             Card curCard = handList.get(i);
             String curCardType = curCard.getType();
 
-            if(curCardType == searchedCardType) {
+            if(curCardType.equals(searchedCardType)) {
                 // The card location number is the index location plus 1, because we start counting from 1 for card location numbers.
                 return i + 1; 
             }
@@ -150,7 +150,7 @@ public class Hand {
 
     /**
      * This is an overrided toString method to provide a visual representation of the player's hand when printing to the console.
-     * It display's the player's turn designation number and the names of all the cards in his hand. This is used for development
+     * It display's the player's turn designation number and the names of all the cards in their hand. This is used for development
      * and testing.
      */
     public String toString() {

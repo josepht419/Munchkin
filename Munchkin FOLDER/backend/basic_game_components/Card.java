@@ -1,10 +1,9 @@
 package basic_game_components;
 
 /**
- * This class Card is the super class for all card varieties in the game of Munchkin. Objects like
- * Monster, Race, MonsterModifier, and so on, are all instances of Card. This is done in order to
- * place them all together in the same piles, same hand, and same in play cards despite their varying
- * characteristics and classifications.
+ * This class is the super class for all card varieties in the game of Munchkin. Objects like MonsterCard, RaceCard, MonsterEnhancerCard, and so 
+ * on, are all children of the Card class. This is done in order to place them all together in the same piles, same hand, and same in play cards,
+ * despite their varying characteristics.
  */
 public class Card {
     //----------------------------------------------------
@@ -20,7 +19,7 @@ public class Card {
     //            CONSTRUCTOR(S)
     //----------------------------------------------------
     
-    /*
+    /**
      * This method constructs a Card object, the main super class of all the cards in the game.
      * @param name The card's unique name.
      * @param type The card's pile type, "door" or "treasure".
@@ -34,16 +33,16 @@ public class Card {
     // METHOD(S)
     //----------------------------------------------------
 
-    /*
-     * Get the card's unique name.
+    /**
+     * This method gets the card's unique name.
      * @return The card's unique name.
      */
     public String getName() {
         return name;
     }
 
-    /*
-     * Get the card's pile type, "door" or "treasure".
+    /**
+     * This method gets the card's pile type, "door" or "treasure".
      * @return The card's pile type, "door" or "treasure".
      */
     public String getType() {

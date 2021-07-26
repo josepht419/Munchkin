@@ -23,13 +23,13 @@ public class InPlayCards {
     private List<Card> inPlayCardsList;
     // The current number of race cards the player has equipped.
     private int numOfEquippedRaces;
-    // The card position numbers of any equipped race cards in the player's in play cards.
+    // The limit to the number of races the player can have equipped at once (usually 1, 2 if they have the "Half-Breed" card).
     private int raceCardLimit;
     // Whether or not the player is a human or part-human.
     private boolean isHuman;
     // The current number of class cards the player has equipped.
     private int numOfEquippedClasses;
-    // The number of class cards a player can have equipped simultaneously (normally 1, 2 with "Super Munchkin" card.)
+    // The limit to the number of class cards a player can have equipped at once (normally 1, 2 if they have the "Super Munchkin" card.)
     private int classCardLimit;
     // The number of weapon hands the player has occupied. Value is 1 if the player only has a one-handed weapon, 2 if the player has either
     // a two-handed weapon or 2 one-handed weapons, or 0 if the player has no weapons.
@@ -44,7 +44,7 @@ public class InPlayCards {
     private boolean atLeastOneBigItemEquipped;
     // A hash map used to save the card location numbers of certain types of cards (race cards, class cards, headgear cards, armor cards, footgear cards,
     // big item cards). The location numbers are then used to make their removal easier in the case of curses and other situations (since we already know
-    // the location number to remove from).
+    // the location number to remove from). It is the type of card mapped to a list of the card locations that contain that type of card.
     private HashMap<String, ArrayList<Integer>> cardLocationMap;
 
 
@@ -73,6 +73,7 @@ public class InPlayCards {
 
         cardLocationMap = new HashMap<String, ArrayList<Integer>>();
 
+        // Instantiating the ArrayLists for our cardLocationMap (so that they can store the location numbers of appearances of the given card types).
         cardLocationMap.put("raceCard_LocationNumbers", new ArrayList<Integer>());
         cardLocationMap.put("classCard_LocationNumbers", new ArrayList<Integer>());
         cardLocationMap.put("headgearCard_LocationNumbers", new ArrayList<Integer>());
@@ -100,21 +101,21 @@ public class InPlayCards {
     }
 
     /**
-     * This method is used to increment the number of equipped races when a race card is equipped.
+     * This method is used to increment the number of equipped races by 1 when a race card is equipped.
      */
     public void incrementNumberOfEquippedRaces() {
         numOfEquippedRaces++;
     }
 
     /**
-     * This method is used to decrement the number of equipped races when a race card is removed.
+     * This method is used to decrement the number of equipped races by 1 when a race card is removed.
      */
     public void decrementNumberOfEquippedRaces() {
         numOfEquippedRaces--;
     }
 
     /**
-     * This method is used to reset the number of equipped races when the player is a victim of the "Curse! Lose Your Race".
+     * This method is used to reset the number of equipped races when the player is a victim of the "Curse! Lose Your Race" card.
      */
     public void resetNumOfEquippedRaces_LoseYourRace() {
         numOfEquippedRaces = 0;
@@ -170,10 +171,7 @@ public class InPlayCards {
     // End of dealing with race cards methods.
     //------------------------------------------
 
-    //------------------------------------------
-    //     DEALING WITH CLASS CARDS...
-    //------------------------------------------
-
+    
     /**
      * This method gets the number of classes currently equipped.
      * @return The number of classes currently equipped.
@@ -183,21 +181,21 @@ public class InPlayCards {
     }
 
     /**
-     * This method is used to increment the number of equipped classes when a class card is equipped.
+     * This method is used to increment the number of equipped classes by 1 when a class card is equipped.
      */
     public void incrementNumberOfEquippedClasses() {
         numOfEquippedClasses++;
     }
 
     /**
-     * This method is used to decrement the number of equipped classes when a class card is removed.
+     * This method is used to decrement the number of equipped classes by 1 when a class card is removed.
      */
     public void decrementNumberOfEquippedClaases() {
         numOfEquippedClasses--;
     }
 
     /**
-     * This method is used to reset the number of equipped classes when the player is a victim of the "Curse! Lose Your Class".
+     * This method is used to reset the number of equipped classes when the player is a victim of the "Curse! Lose Your Class card".
      */
     public void resetNumOfEquippedClasses_LoseYourClass() {
         numOfEquippedClasses = 0;
@@ -253,6 +251,7 @@ public class InPlayCards {
     /**
      * This method sets the number of weapon hands currently occupied by the player to a new value.
      * @param numOfWeaponHandsOccupied This method sets the number of weapon hands currently occupied by the player to a new value.
+     * Valid values: 1 (x1 1-handed weapon equipped), 2 (x1 2-handed weapon equipped, or x2 1-handed weapons equipped), or 0 (no weapons equipped).
      */
     public void set_NumOfWeaponHandsOccupied(int numOfWeaponHandsOccupied) {
         this.numOfWeaponHandsOccupied = numOfWeaponHandsOccupied;
@@ -334,7 +333,7 @@ public class InPlayCards {
     /**
      * This method gets a card from the player's in play cards based on it's card location number (ex: the first card starting from the 
      * left is card 1, etc.). Assume that the cards are all lined up in a straight line, or assume that we start from the first row of
-     * cards, finish it, and then go to the next row of cards, starting from the leftmost again, so on and so forth.
+     * cards, finish it, and then go to the next row of cards below, starting from the leftmost again, so on and so forth.
      * @param cardNumber The card number (starting at 1 from the left).
      * @return The card in question.
      */
@@ -424,10 +423,12 @@ public class InPlayCards {
         
         if(newCard instanceof RaceCard) {
             cardLocationMap.get("raceCard_LocationNumbers").add(cardLocationNumber);
+            return;
         }
 
         if(newCard instanceof ClassCard) {
             cardLocationMap.get("classCard_LocationNumbers").add(cardLocationNumber);
+            return;
         }
 
         if(newCard instanceof ItemCard) {
@@ -437,13 +438,13 @@ public class InPlayCards {
             switch(classification) {
                 case "headgear":
                     cardLocationMap.get("headgearCard_LocationNumbers").add(cardLocationNumber);
-                    break;
+                    return;
                 case "armor":
                     cardLocationMap.get("armorCard_LocationNumbers").add(cardLocationNumber);
-                    break;
+                    return;
                 case "footgear":
                     cardLocationMap.get("footgearCard_LocationNumbers").add(cardLocationNumber);
-                    break;
+                    return;
 
             } // End of switch statement.
 
@@ -451,6 +452,7 @@ public class InPlayCards {
 
             if(bigStatus == true) {
                 cardLocationMap.get("bigItemCard_LocationNumbers").add(cardLocationNumber);
+                return;
             }
         }
 
@@ -459,7 +461,7 @@ public class InPlayCards {
     /**
      * This method is used to get a list of the card location numbers for a given card type (used specifically for race cards, class cards,
      * headgear cards, armor cards, footgear cards, and big item cards). If the given card type input is not valid, then the method will
-     * just return null,.
+     * just return null.
      * @param cardType Valid inputs: "race cards", "class cards", "headgear cards", "armor cards", "footgear cards", and "big item cards".
      * @return List of the card location numbers for given card type. If the given input String is invalid, the method will just return null.
      */
@@ -469,23 +471,17 @@ public class InPlayCards {
 
         switch(cardType) {
             case "raceCard_LocationNumbers":
-                cardLocationNumbers_List = cardLocationMap.get("raceCard_LocationNumbers");
-                break;
+                return cardLocationMap.get("raceCard_LocationNumbers");
             case "classCard_LocationNumbers":
-                cardLocationNumbers_List = cardLocationMap.get("classCard_LocationNumbers");
-                break;
+                return cardLocationMap.get("classCard_LocationNumbers");
             case "headgearCard_LocationNumbers":
-                cardLocationNumbers_List = cardLocationMap.get("headgearCard_LocationNumbers");
-                break;
+                return  cardLocationMap.get("headgearCard_LocationNumbers");
             case "armorCard_LocationNumbers":
-                cardLocationNumbers_List = cardLocationMap.get("armorCard_LocationNumbers");
-                break;
+                return cardLocationMap.get("armorCard_LocationNumbers");
             case "footgearCard_LocationNumbers":
-                cardLocationNumbers_List = cardLocationMap.get("footgearard_LocationNumbers");
-                break;
+                return cardLocationMap.get("footgearard_LocationNumbers");
             case "bigItemCard_LocationNumbers":
-                cardLocationNumbers_List = cardLocationMap.get("bigItemCard_LocationNumbers");
-                break;
+                return cardLocationMap.get("bigItemCard_LocationNumbers");
 
         } // End of switch statement.
 
@@ -495,7 +491,7 @@ public class InPlayCards {
 
     /**
      * This is an overrided toString method to provide a visual representation of the player's in play cards when printing to the console.
-     * It display's the player's turn designation number and the names of all the cards in his in play. This is used for development
+     * It display's the player's turn designation number and the names of all the cards in their in play. This is used for development
      * and testing.
      */
     public String toString() {

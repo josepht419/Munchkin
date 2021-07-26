@@ -1,8 +1,5 @@
 package basic_game_components.player_stuff;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * This class simulates a player in the game of Munchkin.
  */
@@ -17,21 +14,18 @@ public class Player {
     private int level;
     // The player's sex, male or female. Represented as Strings "male" or "female".
     private String sex;
-    // The player's combat bonuses from equipment and modifier cards like potions, etc.
+    // The player's combat bonus from equipment and modifier cards like potions, etc.
     private int combatBonus;
     // The player's run away bonus from equipment.
     private int runAwayBonus;
     // The player's current gold amount.
     private int goldAmount;
-    
+    // The player's hand.
     private Hand hand;
-
+    // The player's in play cards.
     private InPlayCards inPlayCards;
 
-    //----------------------------------------------------
-	//          CONSTRUCTOR(S)
-    //----------------------------------------------------
-
+     
     /**
      * This method constructs a Player object to simulate an individual player in the game.
      */
@@ -45,24 +39,13 @@ public class Player {
         combatBonus = 0;
         // No run away bonuses until the player equips something.
         runAwayBonus = 0;
+        // The player has no gold at the beginning of the game.
         goldAmount = 0;
-        // Displays the player's hand, aka their available cards.
-        hand = new ArrayList<>();
-        // Limits the players card hand to only 5 (unless Dwarf is equipted).
-        handLimit = 5;
-        // The card's the player has placed down in front of them (equipment, curses placed on them, etc.).
-        inPlayCards = new ArrayList<>();
 
-        currentRaces = new ArrayList<String>();
-        currentRaces.add("human");
+        hand = new Hand(playerTurnNumber);
+        inPlayCards = new InPlayCards(playerTurnNumber);
 
-        currentClasses = new ArrayList<String>();
-
-        weaponHandsOccupied = 0;
-        headgearOccupiedStatus = false;
-        footgearOccupiedStatus = false;
-        atLeastOneBigItemStatus = false;
-    }
+    } // End of constructor method.
     
     //----------------------------------------------------
 	//          METHOD(S)
@@ -77,21 +60,32 @@ public class Player {
     }
 
     /**
-     * Get the player's level.
+     * This method get the player's level.
      * @return The player's level.
      */ 
     public int getLevel() {
         return level;
     }
 
+    /**
+     * This method is used to modify the player's level by a certain positive or negative amount, either increasing or decreasing it.
+     * @param amount The amount by which to modify the player's level (positive or negative).
+     */
     public void modifyLevel(int amount) {
-        level = level + amount;
+        level += amount;
     }
 
+    /**
+     * This method gets the player's sex, "male" or "female".
+     * @return The player's sex, "male" or "female".
+     */
     public String getSex() {
         return sex;
     }
 
+    /**
+     * This method changes the player's sex. It is used for the "Curse! Change Sex" card.
+     */
     public void changeSex() {
         if(sex.equals("male"))
             sex = "female";
@@ -100,15 +94,24 @@ public class Player {
     }
 
     /**
-     * Get the player's combat bonus (from equipment and other cards).
-     * @return The players combat bonus (from equipment and other cards).
+     * This method get the player's combat bonus (from equipment and other cards).
+     * @return The player's combat bonus (from equipment and other cards).
      */ 
     public int getCombatBonus() {
         return combatBonus;
     }
+
+    /**
+     * This method modifies the player's combat bonus by a positive or negative amount (the addition or removal of equipment and the use of
+     * other cards).
+     * @param amount The amount by which the player's combat bonus is modified (positive or negative).
+     */
+    public void modifyCombatBonus(int amount) {
+        combatBonus += amount;
+    }
     
     /**
-     * Get the player's run away bonus (from equipment).
+     * This method gets the player's run away bonus (from equipment).
      * @return The player's run away bonus (from equipment).
      */ 
     public int getRunAwayBonus() {
@@ -116,7 +119,16 @@ public class Player {
     }
 
     /**
-     * Get the player's current gold amount.    
+     * This method modifies the player's run away bonus by a positive or negative amount (the addition or removal of equipment and the use of
+     * other cards).
+     * @param amount The amount by which the player's run away bonus is modified (positive or negative).
+     */
+    public void modifyRunAwayBonus(int amount) {
+        runAwayBonus += amount;
+    }
+
+    /**
+     * This method gets the player's current gold amount.    
      * @return The player's current gold amount.
      */
     public int getGoldAmount() {
@@ -124,175 +136,27 @@ public class Player {
     }
 
     /**
-     * Increases the player's hand limit to 6 (dwarf card equipped).
+     * This method adds a certain amount of gold to the player.
+     * @param amount The amount of gold to be added to the player's total gold (use positive values only).
      */
-    public void increaseLimit_BecomeDwarf() {
-        handLimit = 6;
-    }
-    
-    /**
-     * Resets the player's hand to the original limit of 5 (dwarf card discarded from equipped).
-     */
-    public void resetLimit_NoLongerDwarf() {
-        handLimit = 5;
+    public void addGold(int amount) {
+        goldAmount += amount;
     }
 
     /**
-     * This method gets a specific card from the player's hand based on a number (ex: the first card starting from the left is 
-    card number 1, etc.).
-     * @param cardNumber The card number (starting at 1 from the left).
-     * @return The card in question.
+     * This method gets the player's hand (i.e. the Hand object).
+     * @return The player's hand.
      */
-    public Card getCardFromHand(int cardNumber) {
-        int index = cardNumber - 1;
-        return hand.get(index);
-    }
-    
-    /**
-     * This method is used to add a new card to the player's hand.
-     * @param newCard The new card being added to the player's hand.
-     */
-    public void addCardToHand(Card newCard) {
-        hand.add(newCard);
-    }
-    
-    /**
-     * This method is used to remove a card from the player's hand based on a number (ex: the first card starting from the left is 
-    card number 1, etc.).
-     * @param cardNumber The card number (starting at 1 from the left).
-     */
-    public Card removeCardFromHand(int cardNumber) {
-        int index = cardNumber - 1;
-        Card cardToBeRemoved = hand.get(index);
-        hand.remove(index);
-        return cardToBeRemoved;
+    public Hand getHand() {
+        return hand;
     }
 
     /**
-     * This method gets the player's current hand limit.
-     * @return The player's current hand limit.
+     * This method gets the player's in play cards (i.e. the InPlayCards object).
+     * @return The player's in play cards.
      */
-    public int getHandLimit() {
-        return handLimit;
-    }
-    
-    /**
-     * This method gets a specific card from the player's in play cards based on a number (ex: the first card starting from the left is 
-       card number 1, etc.).
-     * @param cardNumber The card number (starting at 1 from the left).
-     * @return The card in question.
-     */
-    
-    public Card getCardFromInPlayCards(int cardNumber) {
-        int index = cardNumber - 1;
-        return inPlayCards.get(index);
-    }
-
-    /** This method adds a new card to player's in play cards.
-     * @param newCard The new card being added to the player's in play cards.
-     */
-    public void addCardToInPlayCards(Card newCard) {
-        inPlayCards.add(newCard);
-    }
-    
-    /**
-     * This method is used to remove a card from the player's in play cards based on a number (ex: the first card starting from the left is 
-       card number 1, etc.).
-     * @param cardNumber The card number (starting at 1 from the left).
-     */
-    
-    public Card removeCardFromInPlayCards(int cardNumber) {
-        int index = cardNumber - 1;
-        Card cardToBeRemoved = inPlayCards.get(index);
-        inPlayCards.remove(index);
-        return cardToBeRemoved;
-    }
-
-    /**
-     * This method prints the player's hand (i.e. the names of the cards in the player's hand in order from left to right.).
-     */
-    public void printHand() {
-        System.out.println("----------- Player " + playerNumber + "'s Hand --------------");
-        for (Card curCard : hand)
-            System.out.println(curCard.getName());
-        System.out.println("------------------------------------------");      
-    }
-
-    /**
-     * This method prints the player's in play cards (i.e. the names of the cards in the player's in play cards in order from left to right.).
-     */
-    public void printInPlayCards() {
-        System.out.println("----------- Player " + playerNumber + "'s InPlayCards -------");
-        for (Card curCard : inPlayCards)
-            System.out.println(curCard.getName());
-        System.out.println("------------------------------------------");
-    }
-
-    public List<String> getCurrentRaces() {
-        return currentRaces;
-    }
-
-    public void changeRace(String raceToBeChanged, String newRace) {
-        currentRaces.clear();
-        currentRaces.add(newRace);
-    }
-
-    public void loseRace() {
-        currentRaces.clear();
-        currentRaces.add("human");
-    }
-
-    public List<String> getCurrentClass() {
-        return currentClasses;
-    }
-
-    public void changeClass(String newClass) {
-        currentClasses.clear();
-        currentClasses.add(newClass);
-    }
-
-    public void loseClass() {
-        currentClasses.clear();
-    }
-
-    public int getWeaponHandsOccupied() {
-        return weaponHandsOccupied;
-    }
-
-    public void changeWeaponHandsOccupied(int newValue) {
-        weaponHandsOccupied = newValue;
-    }
-
-    public boolean getHeadgearOccupiedStatus() {
-        return headgearOccupiedStatus;
-    }
-
-    public void changeHeadgearOccupiedStatus() {
-        headgearOccupiedStatus = !headgearOccupiedStatus;
-    }
-
-    public boolean getArmorOccupiedStatus() {
-        return armorOccupiedStatus;
-    }
-
-    public void changeArmorOccupiedStatus() {
-        armorOccupiedStatus = !armorOccupiedStatus;
-    }
-
-    public boolean getFootgearOccupiedStatus() {
-        return footgearOccupiedStatus;
-    }
-
-    public void changeFootgearOccupiedStatus() {
-        footgearOccupiedStatus = !footgearOccupiedStatus;
-    }
-
-    public boolean getAtLeastOneBigItemStatus() {
-        return atLeastOneBigItemStatus;
-    }
-
-    public void changeAtLeastOneBigItemStatus() {
-        atLeastOneBigItemStatus = !atLeastOneBigItemStatus;
+    public InPlayCards getInPlayCards() {
+        return inPlayCards;
     }
 
 } // End of Player class.
