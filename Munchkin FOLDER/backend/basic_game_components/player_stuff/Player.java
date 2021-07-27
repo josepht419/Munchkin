@@ -19,7 +19,7 @@ public class Player {
     // The player's run away bonus from equipment.
     private int runAwayBonus;
     // The player's current gold amount.
-    private int goldAmount;
+    private int gold;
     // The player's hand.
     private Hand hand;
     // The player's in play cards.
@@ -40,7 +40,7 @@ public class Player {
         // No run away bonuses until the player equips something.
         runAwayBonus = 0;
         // The player has no gold at the beginning of the game.
-        goldAmount = 0;
+        gold = 0;
 
         hand = new Hand(playerTurnNumber);
         inPlayCards = new InPlayCards(playerTurnNumber);
@@ -131,8 +131,8 @@ public class Player {
      * This method gets the player's current gold amount.    
      * @return The player's current gold amount.
      */
-    public int getGoldAmount() {
-        return goldAmount;
+    public int getGold() {
+        return gold;
     }
 
     /**
@@ -140,7 +140,7 @@ public class Player {
      * @param amount The amount of gold to be added to the player's total gold (use positive values only).
      */
     public void addGold(int amount) {
-        goldAmount += amount;
+        gold += amount;
     }
 
     /**

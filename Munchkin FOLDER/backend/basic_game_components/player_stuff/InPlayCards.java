@@ -448,7 +448,7 @@ public class InPlayCards {
 
             } // End of switch statement.
 
-            boolean bigStatus = ((ItemCard) newCard).getBigStatus();
+            boolean bigStatus = ((ItemCard) newCard).checkIfItemIsBig();
 
             if(bigStatus == true) {
                 cardLocationMap.get("bigItemCard_LocationNumbers").add(cardLocationNumber);

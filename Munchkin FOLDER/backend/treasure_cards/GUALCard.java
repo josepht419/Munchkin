@@ -3,7 +3,7 @@ package treasure_cards;
 import basic_game_components.Card;
 
 /**
- * This class represents a go up a level card in the game of Munchkin.
+ * This class represents a "go up a level" card in the game of Munchkin.
  */
 public class GUALCard extends Card {
 
@@ -12,11 +12,11 @@ public class GUALCard extends Card {
 	//----------------------------------------------------
 
     /**
-     * This method constructs a GUALCard.
+     * This method constructs a "go up a level" card in the game.
      * @param name The unique name of the card.
      */
     public GUALCard(String name) {
         super(name, "treasure");
     }
 
-} // End of GUALCard.
+} // End of GUALCard class.

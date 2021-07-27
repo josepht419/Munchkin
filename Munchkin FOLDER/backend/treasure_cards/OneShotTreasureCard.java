@@ -4,7 +4,7 @@ import basic_game_components.Card;
 
 
 /**
- * This class represents an simple usable once card in the game of Munchkin.
+ * This class represents a "one shot treasure" card in the game of Munchkin.
  */
 public class OneShotTreasureCard extends Card {
 
@@ -12,28 +12,32 @@ public class OneShotTreasureCard extends Card {
 	//			INSTANCE VARIABLES
 	//----------------------------------------------------
 
-    // The combat bonus the simple usable once item applies to target.
+    // The combat bonus the "one shot treasure" provides to its target (if any).
     private int combatBonus;
 
-    // The gold value of the one shot treasure.
+    // The gold value of the "one shot treasure".
     private int goldValue;
 
-    private boolean eitherSidePlayableStatus;
+    // Whether or not the "one shot treasure" is playable in either side (i.e. you can use it on either a player or a monster).
+    private boolean isEitherSidePlayable;
 
     //----------------------------------------------------
 	//			CONSTRUCTOR(S)
 	//----------------------------------------------------
 
     /**
-     * This method constructs a simple usable once item in the game.
+     * This method constructs a "one shot treasure" in the game.
      * @param name The unique name of the card.
-     * @param combatBonus The combat bonus the usable once item provides
+     * @param combatBonus The combat bonus the "one shot treasure" provides to its target (if any).
+     * @param goldValue The gold value of the "one shot treasure".
+     * @param isEitherSidePlayable Whether or not the "one shot treasure" is playable in either side (i.e. you can use it on either a player or a
+     * monster).
      */
-    public OneShotTreasureCard(String name, int combatBonus, int goldValue, boolean eitherSidePlayableStatus) {
+    public OneShotTreasureCard(String name, int combatBonus, int goldValue, boolean isEitherSidePlayable) {
         super(name, "treasure");
         this.combatBonus = combatBonus;
         this.goldValue = goldValue;
-        this.eitherSidePlayableStatus = eitherSidePlayableStatus;
+        this.isEitherSidePlayable = isEitherSidePlayable;
     }
 
     //----------------------------------------------------
@@ -41,19 +45,28 @@ public class OneShotTreasureCard extends Card {
 	//----------------------------------------------------
 
     /**
-     * This method gets the combat bonus of the simple usable once item (if any).
-     * @return The combat bonus of the simple usable once item (if any).
+     * This method gets the combat bonus the "one shot treasure" provides to its target (if any).
+     * @return The combat bonus the "one shot treasure" provides to its target (if any).
      */
     public int getCombatBonus() {
         return combatBonus;
     }
 
+    /**
+     * This method gets the gold value of the "one shot treasure".
+     * @return
+     */
     public int getGoldValue() {
-        return combatBonus;
+        return goldValue;
     }
 
-    public boolean getEitherSidePlayableStatus() {
-        return eitherSidePlayableStatus;
+    /**
+     * This method checks to see whether or not the "one shot treasure" is playable in either side (i.e. you can use it on either a player or a
+     * monster.
+     * @return True if the "one shot treasure" is playable in either side, false if it is not playable in either side.
+     */
+    public boolean checkIfEitherSidePlayableStatus() {
+        return isEitherSidePlayable;
     }
 
-} // End of UsableOnce class.
+} // End of OneShotTreasureCard class.

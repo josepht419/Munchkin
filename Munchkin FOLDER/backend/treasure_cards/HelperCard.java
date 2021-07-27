@@ -1,4 +1,4 @@
-package door_cards;
+package treasure_cards;
 
 import basic_game_components.Card;
 
