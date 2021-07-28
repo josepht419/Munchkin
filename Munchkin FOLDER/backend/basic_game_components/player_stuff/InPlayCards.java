@@ -1,8 +1,9 @@
 package basic_game_components.player_stuff;
 
 import basic_game_components.Card;
-import door_cards.*;
-import treasure_cards.*;
+import door_cards.RaceCard;
+import door_cards.ClassCard;
+import treasure_cards.ItemCard;
 
 import java.util.List;
 import java.util.ArrayList;

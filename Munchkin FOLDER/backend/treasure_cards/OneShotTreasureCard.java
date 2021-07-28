@@ -2,7 +2,6 @@ package treasure_cards;
 
 import basic_game_components.Card;
 
-
 /**
  * This class represents a "one shot treasure" card in the game of Munchkin.
  */

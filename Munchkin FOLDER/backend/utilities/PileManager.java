@@ -1,6 +1,6 @@
 package utilities;
 
-import basic_game_components.*;
+import basic_game_components.Card;
 import door_cards.*;
 import treasure_cards.*;
 
@@ -20,27 +20,14 @@ public class PileManager {
     // List simulating the treasure pile.
     private List<Card> treasurePile;
 
-    // Backup for the door pile (for reset).
-    private List<Card> doorPile_Backup;
-    // Backup for the treasure pile (for reset).
-    private List<Card> treasurePile_Backup;
-
     public PileManager() {
         // Declare empty lists for both piles.
         doorPile = new ArrayList<Card>();
         treasurePile = new ArrayList<Card>();
 
-        // Declare their back ups for when we want to reset all cards should we have to reshuffle.
-        doorPile_Backup = new ArrayList<Card>();
-        treasurePile_Backup = new ArrayList<Card>();
-
         //Instantiate both piles, filling both lists with their respective cards (utility methods).
         instantiateDoorPile();
         instantiateTreasurePile();
-
-        // Instantiate backup piles for each one so that when a pile runs dry, it can be replaced with an untampered deck.
-        // (utility method).
-        instantiateBackupPiles();
 
         // Shuffle the piles.
         shufflePile(doorPile);
@@ -57,40 +44,40 @@ public class PileManager {
     }
 
     /**
+     * This method is used to return the door discards to the door pile once the pile runs dry (and shuffle the cards).
+     * @param doorDiscards The door discards.
+     */
+    public void returnDiscardsToDoorPile(List<Card> doorDiscards) {
+
+        for(Card doorDiscard : doorDiscards) {
+            doorPile.add(doorDiscard);
+        }
+
+        shufflePile(doorPile);
+
+    } // End of returnDiscardsToDoorPile method.
+
+    /**
+     * This method is used to return the treasure discards to the treasure pile once the pile runs dry (and shuffle the cards).
+     * @param treasureDiscards The treasure discards.
+     */
+    public void returnDiscardsToTreasurePile(List<Card> treasureDiscards) {
+        
+        for(Card treasureDiscard : treasureDiscards) {
+            doorPile.add(treasureDiscard);
+        }
+
+        shufflePile(treasurePile);
+
+    } // End of returnDiscardsToTreasurePile method.
+
+    /**
      * This method gets the treasure pile (deck of cards containing all treasure cards in the game).
      * @return The treasure pile list.
      */
     public List<Card> getTreasurePile() {
         return treasurePile;
     }
-
-    /**
-     * This method resets the door pile when it run dry. 
-     */
-    public void resetDoorPile() {
-
-        treasurePile.clear();
-
-        for(Card curCard : doorPile_Backup)
-            doorPile.add(curCard);
-
-        shufflePile(doorPile);
-        
-    } // End of resetDoorPile method.
-
-    /**
-     * This method resets the treasure pile when it run dry. 
-     */
-    public void resetTreasurePile() {
-
-        treasurePile.clear();
-
-        for(Card curCard : treasurePile_Backup)
-            treasurePile.add(curCard);
-
-            shufflePile(treasurePile);
-
-    } // End of resetTreasurePile method.
 
     /**
      * This utility method instantiates the door pile, creating each card object that belongs to it and adding them to the door pile list.
@@ -385,9 +372,9 @@ public class PileManager {
     } // End of instantiateDoorPile method.
 
     /**
-     * This method instantiates the treasure pile, creating each card object that belongs to it and adding them to the treasure pile list.
+     * This utility method instantiates the treasure pile, creating each card object that belongs to it and adding them to the treasure pile list.
      */
-    public void instantiateTreasurePile() {
+    private void instantiateTreasurePile() {
 
         // Class constructor signatures are provided above each card creation/addition so one could identify what each value in their constructor correlates to...
 
@@ -616,18 +603,9 @@ public class PileManager {
     } // End of instatiateTreasurePile method.
 
     /**
-     * This utility method instantiates backup piles for both door and treasure. This is so that we can use this fresh set of cards to replace the current pile, which may have values 
-     * that have been tampered with throughout the game. This replacement happens when a pile in the game runs dry (i.e. all cards from that pile have been discarded) and the pile 
-     * must be shuffled and reset to where it belongs.
+     * This utility method is used to shuffle a given pile when necessary in the previous methods.
+     * @param pile The pile, door or treasure.
      */
-    private void instantiateBackupPiles() {
-
-        for(Card curCard : doorPile)
-            doorPile_Backup.add(curCard);
-        for(Card curCard : treasurePile)
-            treasurePile_Backup.add(curCard);
-    }
-
     private void shufflePile(List<Card> pile) {
         Collections.shuffle(Arrays.asList(pile));
     }

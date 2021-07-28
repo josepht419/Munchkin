@@ -11,10 +11,19 @@ public class MonsterCard extends Card {
 	//			INSTANCE VARIABLES
 	//----------------------------------------------------
 
-	// The monster's level.
-	private int level;
-	// The monster's base treasure reward amount for defeating it (before any modifications).
-	private int treasureReward;
+	// The original value, that is, before any modifications, of both the level and treasure reward are saved so that we can reset these as to
+	// restore the monster card to its original state before being discarded. This prevents these values from remaining altered if the discards
+	// are placed back in a shuffled door pile should the pile run dry.
+
+	// The monster's original level (before any modifications).
+	private int originalLevel;
+	// The monster's current level.
+	private int currentLevel;
+	// The monster's original treasure reward amount for defeating it (before any modifications).
+	private int originalTreasureReward;
+	// The monster's current treasure reward amount for defeating it.
+	private int currentTreasureReward;
+
 	// The amount of levels you go up for defeating the monster.
 	private int levelReward;
 	// Whether or not the monster is undead.
@@ -27,15 +36,17 @@ public class MonsterCard extends Card {
 	/**
 	 * This method constructs a monster card in the game.
 	 * @param name The unique name of the card.
-	 * @param level The monster's base level.
+	 * @param level The monster's level.
 	 * @param treasureReward The amount of treasures you are rewarded with for beating the monster.
 	 * @param levelReward The amount of levels you are rewarded with for beating the monster.
 	 * @param isUndead Whether or not the monster is undead (true if undead, false if not undead).
 	 */
 	public MonsterCard(String name, int level, int treasureReward, int levelReward, boolean isUndead) {
 		super(name, "door");
-        this.level = level;
-        this.treasureReward = treasureReward;
+        originalLevel = level;
+		currentLevel = originalLevel;
+        originalTreasureReward = treasureReward;
+		currentTreasureReward = originalTreasureReward;
 		this.levelReward = levelReward;
 		this.isUndead = isUndead;
 	}
@@ -48,14 +59,29 @@ public class MonsterCard extends Card {
 	 * @return The monster's level.
 	 */
 	public int getLevel() {
-		return level;
+		return currentLevel;
 	}
+
 	/**
-	 * This method get the monster's current treasure reward (i.e. the amount of treasures you get for beating it).
-	 * @return The monster's current treasure reward.
+	 * This method resets the monster's level to its original value (before any modifications).
+	 */
+	public void resetLevel() {
+		currentLevel = originalLevel;
+	}
+
+	/**
+	 * This method get the monster's current treasure reward amount (i.e. the amount of treasures you get for beating it).
+	 * @return The monster's current treasure reward amount.
 	 */
 	public int getTreasureReward() {
-		return treasureReward;
+		return currentTreasureReward;
+	}
+
+	/**
+	 * This method resets the monster's treasure reward amount to its original value (before any modifications).
+	 */
+	public void resetTreasureReward() {
+		currentTreasureReward = originalTreasureReward;
 	}
 	
 	/**
@@ -72,7 +98,7 @@ public class MonsterCard extends Card {
 	 * @param amount The level modification amount.
 	 */
 	public void modifyLevel(int levelModValue) {
-		level += levelModValue;
+		currentLevel += levelModValue;
 	}
 
 	/**
@@ -81,7 +107,7 @@ public class MonsterCard extends Card {
 	 * @param amount The amount by which it changes.
 	 */
 	public void modifyTreasureReward(int treasureModValue) {
-		treasureReward += treasureModValue;
+		currentTreasureReward += treasureModValue;
 	}
 
 	/**

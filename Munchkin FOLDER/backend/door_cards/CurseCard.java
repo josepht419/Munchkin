@@ -1,6 +1,6 @@
 package door_cards;
 
-import basic_game_components.*;
+import basic_game_components.Card;
 
 /**
  * This class represents a curse card in the game of Munchkin.
