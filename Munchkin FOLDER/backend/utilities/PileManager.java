@@ -49,10 +49,8 @@ public class PileManager {
      */
     public void returnDiscardsToDoorPile(List<Card> doorDiscards) {
 
-        for(Card doorDiscard : doorDiscards) {
-            doorPile.add(doorDiscard);
-        }
-
+        doorPile.addAll(doorDiscards);
+        doorDiscards.clear();
         shufflePile(doorPile);
 
     } // End of returnDiscardsToDoorPile method.
@@ -63,10 +61,8 @@ public class PileManager {
      */
     public void returnDiscardsToTreasurePile(List<Card> treasureDiscards) {
         
-        for(Card treasureDiscard : treasureDiscards) {
-            doorPile.add(treasureDiscard);
-        }
-
+        treasurePile.addAll(treasureDiscards);
+        treasureDiscards.clear();
         shufflePile(treasurePile);
 
     } // End of returnDiscardsToTreasurePile method.
