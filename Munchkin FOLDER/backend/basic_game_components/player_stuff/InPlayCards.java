@@ -1,13 +1,12 @@
 package basic_game_components.player_stuff;
 
 import basic_game_components.Card;
-import door_cards.RaceCard;
-import door_cards.ClassCard;
-import treasure_cards.ItemCard;
+
+import door_cards.*;
+import treasure_cards.*;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * This class simulates the player's in play cards, i.e. the card they have layed out infront of them (ex: equipment, active curses, 
@@ -43,11 +42,6 @@ public class InPlayCards {
     private boolean footgearEquipped;
     // Whether or not the player has at least one big item equipped.
     private boolean atLeastOneBigItemEquipped;
-    // A hash map used to save the card location numbers of certain types of cards (race cards, class cards, headgear cards, armor cards, footgear cards,
-    // big item cards). The location numbers are then used to make their removal easier in the case of curses and other situations (since we already know
-    // the location number to remove from). It is the type of card mapped to a list of the card locations that contain that type of card.
-    private HashMap<String, ArrayList<Integer>> cardLocationMap;
-
 
     //----------------------------------------------------
     //            CONSTRUCTOR(S)
@@ -71,16 +65,6 @@ public class InPlayCards {
         armorEquipped = false;
         footgearEquipped = false;
         atLeastOneBigItemEquipped = false;
-
-        cardLocationMap = new HashMap<String, ArrayList<Integer>>();
-
-        // Instantiating the ArrayLists for our cardLocationMap (so that they can store the location numbers of appearances of the given card types).
-        cardLocationMap.put("raceCard_LocationNumbers", new ArrayList<Integer>());
-        cardLocationMap.put("classCard_LocationNumbers", new ArrayList<Integer>());
-        cardLocationMap.put("headgearCard_LocationNumbers", new ArrayList<Integer>());
-        cardLocationMap.put("armorCard_LocationNumbers", new ArrayList<Integer>());
-        cardLocationMap.put("footgearCard_LocationNumbers", new ArrayList<Integer>());
-        cardLocationMap.put("bigItemCard_LocationNumbers", new ArrayList<Integer>());
 
     } // End of constructor method.
 
@@ -113,13 +97,6 @@ public class InPlayCards {
      */
     public void decrementNumberOfEquippedRaces() {
         numOfEquippedRaces--;
-    }
-
-    /**
-     * This method is used to reset the number of equipped races when the player is a victim of the "Curse! Lose Your Race" card.
-     */
-    public void resetNumOfEquippedRaces_LoseYourRace() {
-        numOfEquippedRaces = 0;
     }
 
     /**
@@ -191,15 +168,8 @@ public class InPlayCards {
     /**
      * This method is used to decrement the number of equipped classes by 1 when a class card is removed.
      */
-    public void decrementNumberOfEquippedClaases() {
+    public void decrementNumberOfEquippedClasses() {
         numOfEquippedClasses--;
-    }
-
-    /**
-     * This method is used to reset the number of equipped classes when the player is a victim of the "Curse! Lose Your Class card".
-     */
-    public void resetNumOfEquippedClasses_LoseYourClass() {
-        numOfEquippedClasses = 0;
     }
 
     /**
@@ -332,6 +302,14 @@ public class InPlayCards {
     //------------------------------------------
 
     /**
+     * This method is used to get the list implementation of the in play cards (used for specific situations).
+     * @return The list implementation of the in play cards.
+     */
+    public List<Card> getInPlayCardsList() {
+        return inPlayCardsList;
+    }
+
+    /**
      * This method gets a card from the player's in play cards based on it's card location number (ex: the first card starting from the 
      * left is card 1, etc.). Assume that the cards are all lined up in a straight line, or assume that we start from the first row of
      * cards, finish it, and then go to the next row of cards below, starting from the leftmost again, so on and so forth.
@@ -352,56 +330,6 @@ public class InPlayCards {
     }
 
     /**
-     * This method searches for a card using its name. If it is found, the card location number is returned. If it is not found, 
-     * return 0 (default).
-     * @param searchedCardName The card's name.
-     * @return The card's location number, if found. If not found, return 0, indicating it was not found in the in play cards.
-     */
-    public int searchForCardUsingName_ReturnCardLocationNumber(String searchedCardName) {
-
-        for(int i = 0; i < inPlayCardsList.size(); i++) {
-
-            Card curCard = inPlayCardsList.get(i);
-            String curCardName = curCard.getName();
-
-            if(curCardName.equals(searchedCardName)) {
-                // The card location number is the index location plus 1, because we start counting from 1 for card location numbers.
-                return i + 1;
-            }
-
-        } // End of for loop.
-
-        // If it was never found in the for loop above, we return 0 by default, indicating that it was not found in the in play cards.
-        return 0;
-
-    } // End of searchForCardUsingName_ReturnCardLocationNumber method.
-
-    /**
-     * This method searches for a card using its type. If it is found, the card location number is returned. If it is not found, 
-     * return 0 (default).
-     * @param cardType The card's type.
-     * @return The card's location number, if found. If not found, return 0, indicating it was not found in the in play cards.
-     */
-    public int searchForCardUsingType_ReturnCardLocationNumber(String searchedCardType) {
-
-        for(int i = 0; i < inPlayCardsList.size(); i++) {
-
-            Card curCard = inPlayCardsList.get(i);
-            String curCardType = curCard.getType();
-
-            if(curCardType == searchedCardType) {
-                // The card location number is the index location plus 1, because we start counting from 1 for card location numbers.
-                return i + 1; 
-            }
-
-        } // End of for loop.
-
-        // If it was never found in the for loop above, we return 0 by default, indicating that it was not found in the in play cards.
-        return 0;
-
-    } // End of searchForCardUsingType_ReturnCardLocationNumber method.
-
-    /**
      * This method removes a card from the player's in play cards using its card location number (the leftmost card is 1, followed by 2, 3, etc.).
      * It also returns it (used to move it somewhere else).
      * @param cardLocationNumber The card location number (the leftmost card is 1, followed by 2, 3, etc.).
@@ -411,84 +339,6 @@ public class InPlayCards {
         int index = cardLocationNumber - 1;
         return inPlayCardsList.remove(index);
     }
-
-    /**
-     * This method is used to save the location numbers of certain cards (specifically race cards, class cards, headgear cards, armor cards, footgear
-     * cards, and big item cards). This is so that we can use another method (getListOfLocationNumbers_ForCertainCardType) to easily get the location
-     * numbers of all of a certain type of card and remove them based on the location number.
-     * @param newCard The card that you are adding to in play cards whose location number you want to save (must be race card, class card, 
-     * headgear card, armor cards, footgear card, or big item card).
-     * @param cardLocationNumber The card location number you are placing that card at in the in play cards.
-     */
-    public void saveCardLocationNumberTo_CardLocationMap(Card newCard, int cardLocationNumber) {
-        
-        if(newCard instanceof RaceCard) {
-            cardLocationMap.get("raceCard_LocationNumbers").add(cardLocationNumber);
-            return;
-        }
-
-        if(newCard instanceof ClassCard) {
-            cardLocationMap.get("classCard_LocationNumbers").add(cardLocationNumber);
-            return;
-        }
-
-        if(newCard instanceof ItemCard) {
-
-            String classification = ((ItemCard) newCard).getClassification();
-
-            switch(classification) {
-                case "headgear":
-                    cardLocationMap.get("headgearCard_LocationNumbers").add(cardLocationNumber);
-                    return;
-                case "armor":
-                    cardLocationMap.get("armorCard_LocationNumbers").add(cardLocationNumber);
-                    return;
-                case "footgear":
-                    cardLocationMap.get("footgearCard_LocationNumbers").add(cardLocationNumber);
-                    return;
-
-            } // End of switch statement.
-
-            boolean bigStatus = ((ItemCard) newCard).checkIfItemIsBig();
-
-            if(bigStatus == true) {
-                cardLocationMap.get("bigItemCard_LocationNumbers").add(cardLocationNumber);
-                return;
-            }
-        }
-
-    } // End of addCardLocationTo_CardLocationMap method.
-
-    /**
-     * This method is used to get a list of the card location numbers for a given card type (used specifically for race cards, class cards,
-     * headgear cards, armor cards, footgear cards, and big item cards). If the given card type input is not valid, then the method will
-     * just return null.
-     * @param cardType Valid inputs: "race cards", "class cards", "headgear cards", "armor cards", "footgear cards", and "big item cards".
-     * @return List of the card location numbers for given card type. If the given input String is invalid, the method will just return null.
-     */
-    public List<Integer> getListOfLocationNumbers_ForCertainCardType(String cardType) {
-
-        List<Integer> cardLocationNumbers_List = null;
-
-        switch(cardType) {
-            case "raceCard_LocationNumbers":
-                return cardLocationMap.get("raceCard_LocationNumbers");
-            case "classCard_LocationNumbers":
-                return cardLocationMap.get("classCard_LocationNumbers");
-            case "headgearCard_LocationNumbers":
-                return  cardLocationMap.get("headgearCard_LocationNumbers");
-            case "armorCard_LocationNumbers":
-                return cardLocationMap.get("armorCard_LocationNumbers");
-            case "footgearCard_LocationNumbers":
-                return cardLocationMap.get("footgearard_LocationNumbers");
-            case "bigItemCard_LocationNumbers":
-                return cardLocationMap.get("bigItemCard_LocationNumbers");
-
-        } // End of switch statement.
-
-        return cardLocationNumbers_List;
-
-    } // End of getListOfLocationNumbers_ForCertainCardType method.
 
     /**
      * This is an overrided toString method to provide a visual representation of the player's in play cards when printing to the console.

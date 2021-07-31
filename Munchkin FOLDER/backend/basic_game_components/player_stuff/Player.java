@@ -1,5 +1,7 @@
 package basic_game_components.player_stuff;
 
+import basic_game_components.Die;
+
 /**
  * This class simulates a player in the game of Munchkin.
  */
@@ -24,6 +26,8 @@ public class Player {
     private Hand hand;
     // The player's in play cards.
     private InPlayCards inPlayCards;
+    // The player's die (when they are rolling it).
+    private Die die;
 
      
     /**
@@ -44,6 +48,7 @@ public class Player {
 
         hand = new Hand(playerTurnNumber);
         inPlayCards = new InPlayCards(playerTurnNumber);
+        die = new Die();
 
     } // End of constructor method.
     
@@ -73,6 +78,14 @@ public class Player {
      */
     public void modifyLevel(int amount) {
         level += amount;
+    }
+
+    /**
+     * This method sets the player's level to a new value.
+     * @param level The player's new level.
+     */
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     /**
@@ -157,6 +170,10 @@ public class Player {
      */
     public InPlayCards getInPlayCards() {
         return inPlayCards;
+    }
+
+    public Die getDie() {
+        return die;
     }
 
 } // End of Player class.

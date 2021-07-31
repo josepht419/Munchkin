@@ -12,6 +12,10 @@ import java.util.Collections;
 /**
  * This class is used to manage the door and treasure piles of the game. Its operations include initializing the piles, automatically shuffling
  * them, fetching them, and resetting them.
+ * 
+ * IMPORTANT NOTE: We'll consider the end of each pile list (i.e. the last indices) to be the top of those piles. This is for efficient removal
+ * time complexity. This will be the case after shuffling, since we instantiated the cards and added them to their piles in alphabetical order
+ * so that it makes more sense upon inspecting the code for this class.
  */
 public class PileManager {
     
@@ -365,7 +369,7 @@ public class PileManager {
         // ClassCard(String name)
         doorPile.add(new ClassCard("Wizard"));
 
-    } // End of instantiateDoorPile method.
+    } // End of instatiateDoorPile utility method.
 
     /**
      * This utility method instantiates the treasure pile, creating each card object that belongs to it and adding them to the treasure pile list.
@@ -596,7 +600,7 @@ public class PileManager {
         // OneShotTreasureCard(String name, int combatBonus, int goldValue, boolean isEitherSidePlayable)
         treasurePile.add(new OneShotTreasureCard("Yuppie Water", 2, 100, false));
 
-    } // End of instatiateTreasurePile method.
+    } // End of instatiateTreasurePile utility method.
 
     /**
      * This utility method is used to shuffle a given pile when necessary in the previous methods.
